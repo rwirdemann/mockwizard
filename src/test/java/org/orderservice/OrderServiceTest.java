@@ -8,9 +8,12 @@ import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.orderservice.application.OrderServiceApplication;
 import org.orderservice.application.OrderServiceConfiguration;
 import org.orderservice.clearingsystem.Clearing;
+import org.orderservice.quoteservice.QuoteService;
 import org.orderservice.quoteservice.QuoteServiceProvision;
 
 import javax.ws.rs.core.MediaType;
@@ -56,10 +59,10 @@ public class OrderServiceTest {
 
     @Test
     public void shouldDenyOrder() throws Exception {
+        QuoteService quoteService = Mockito.mock(QuoteService.class);
+
         // GIVEN: Limit exceeding order price
-        WebResource provisionResource = client.resource(HOST).path("quoteserviceprovisions");
-        QuoteServiceProvision qsp = new QuoteServiceProvision("TSLA", 210);
-        provisionResource.type(MediaType.APPLICATION_JSON_TYPE).entity(qsp).post();
+        Mockwizard.when(quoteService.getPrice("TSLA")).thenReturn(210.0);
 
         // WHEN: Order requested
         WebResource resource = client.resource(HOST).path("orders");
