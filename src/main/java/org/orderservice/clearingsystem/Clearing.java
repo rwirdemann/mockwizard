@@ -1,7 +1,7 @@
 package org.orderservice.clearingsystem;
 
 public class Clearing {
-    private int count = 0;
+    private int count = 1;
 
     public int getCount() {
         return count;
