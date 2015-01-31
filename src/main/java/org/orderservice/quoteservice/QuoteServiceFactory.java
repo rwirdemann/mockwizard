@@ -3,6 +3,8 @@ package org.orderservice.quoteservice;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.setup.Environment;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.mockito.Mockito;
+import org.mockwizard.StubbingResource;
 
 public class QuoteServiceFactory {
 
@@ -10,11 +12,11 @@ public class QuoteServiceFactory {
     @NotEmpty
     private Type type;
 
-    public QuoteService quoteService(Environment environment) {
+    public QuoteService quoteService(Environment environment, StubbingResource mockValueResource) {
         switch (type) {
             case mock:
-                QuoteService quoteService = new MockQuoteService();
-                environment.jersey().register(new QuoteServiceProvisionResource(quoteService));
+                QuoteService quoteService = Mockito.mock(QuoteService.class);
+                mockValueResource.addMock("quoteservice", quoteService);
                 return quoteService;
             case real: return new RealQuoteService();
         }
