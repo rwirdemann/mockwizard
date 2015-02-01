@@ -58,7 +58,7 @@ public class OrderServiceTest {
 
         // GIVEN: Limit exceeding order price
         StubbingClient stubbingClient = new StubbingClient();
-        stubbingClient.when("orderService.getPrice").thenReturn(210.0);
+        stubbingClient.when("quoteservice.getPrice").thenReturn(210.0);
 
         // WHEN: Order requested
         WebResource resource = client.resource(HOST).path("orders");
