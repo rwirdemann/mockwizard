@@ -1,5 +1,6 @@
 package org.mockwizard;
 
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.orderservice.quoteservice.Mocking;
 
@@ -13,15 +14,9 @@ import java.util.Map;
 @Path("/mockings")
 public class MockingResource {
 
-    private Map<String, MockableService> services = new HashMap<String, MockableService>();
-
-    public void addMock(String name, MockableService service) {
-        services.put(name, service);
-    }
-
     @POST
     public void create(Mocking mocking) throws Exception {
-        MockableService mockableService = services.get(mocking.getServicename());
+        Object mock = Mockwizard.get(mocking.getServicename());
 
         List<Param> params = mocking.getParams();
         Class[] parameterTypes = new Class[params.size()];
@@ -32,8 +27,8 @@ public class MockingResource {
             args[i] = param.getValue();
         }
 
-        Method method = mockableService.getClass().getMethod(mocking.getMethodname(), parameterTypes);
-        Object methodCall = method.invoke(mockableService, args);
+        Method method = mock.getClass().getMethod(mocking.getMethodname(), parameterTypes);
+        Object methodCall = method.invoke(mock, args);
         Mockito.when(methodCall).thenReturn(mocking.getPrice());
     }
 }

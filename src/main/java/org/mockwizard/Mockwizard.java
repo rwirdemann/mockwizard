@@ -2,12 +2,18 @@ package org.mockwizard;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
+import io.dropwizard.setup.Environment;
+import org.mockito.Mockito;
 import org.orderservice.quoteservice.Mocking;
 
 import javax.ws.rs.core.MediaType;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Mockwizard {
     public static final String HOST = "http://localhost:9050";
+
+    private static Map<String, Object> services = new HashMap<String, Object>();
     private final Client client = new Client();
     private final Mocking mocking;
 
@@ -31,5 +37,20 @@ public class Mockwizard {
     public Mockwizard with(String s) {
         mocking.addParam(s);
         return this;
+    }
+
+    public static void init(Environment environment) {
+        MockingResource mockingResource = new MockingResource();
+        environment.jersey().register(mockingResource);
+    }
+
+    public static <T> T mock(Class<T> aClass) {
+        T mock = Mockito.mock(aClass);
+        services.put(aClass.getSimpleName().toLowerCase(), mock);
+        return mock;
+    }
+
+    public static <T> Object get(String servicename) {
+        return services.get(servicename);
     }
 }

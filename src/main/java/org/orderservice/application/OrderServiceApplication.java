@@ -5,6 +5,7 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.mockwizard.MockingResource;
+import org.mockwizard.Mockwizard;
 import org.orderservice.OrderRepository;
 import org.orderservice.OrderResource;
 
@@ -18,10 +19,10 @@ public class OrderServiceApplication extends Application<OrderServiceConfigurati
     public void run(OrderServiceConfiguration configuration, Environment environment) throws Exception {
         Mongo mongo = new Mongo(configuration.mongohost, configuration.mongoport);
 
-        MockingResource mockValueResource = new MockingResource();
-        environment.jersey().register(mockValueResource);
+        Mockwizard.init(environment);
+
         environment.jersey().register(new OrderResource(new OrderRepository(mongo.getDB("orderservice")),
-                configuration.quoteServiceFactory.quoteService(environment, mockValueResource),
+                configuration.quoteServiceFactory.quoteService(),
                 configuration.clearingServiceFactory.clearingService(environment)));
     }
 
