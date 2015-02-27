@@ -27,4 +27,9 @@ public class Mockwizard {
         mocking.setPrice(v);
         provisionResource.type(MediaType.APPLICATION_JSON_TYPE).entity(mocking).post();
     }
+
+    public Mockwizard with(String s) {
+        mocking.addParam(s);
+        return this;
+    }
 }

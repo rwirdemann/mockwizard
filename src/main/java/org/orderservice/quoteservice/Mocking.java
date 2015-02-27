@@ -1,6 +1,10 @@
 package org.orderservice.quoteservice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.mockwizard.Param;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mocking {
 
@@ -15,6 +19,9 @@ public class Mocking {
 
     @JsonProperty
     private double price;
+
+    @JsonProperty
+    private List<Param> params = new ArrayList<Param>();
 
     public Mocking() {
     }
@@ -46,5 +53,9 @@ public class Mocking {
 
     public String getMethodname() {
         return methodname;
+    }
+
+    public void addParam(String s) {
+        params.add(new Param(String.class, s));
     }
 }

@@ -19,10 +19,10 @@ public class MockingResource {
     }
 
     @POST
-    public void create(Mocking stubbing) throws Exception {
-        MockableService mockableService = services.get(stubbing.getServicename());
-        Method method = mockableService.getClass().getMethod(stubbing.getMethodname(), String.class);
-        Object methodCall = method.invoke(mockableService, stubbing.getSymbol());
-        Mockito.when(methodCall).thenReturn(stubbing.getPrice());
+    public void create(Mocking mocking) throws Exception {
+        MockableService mockableService = services.get(mocking.getServicename());
+        Method method = mockableService.getClass().getMethod(mocking.getMethodname(), String.class);
+        Object methodCall = method.invoke(mockableService, mocking.getSymbol());
+        Mockito.when(methodCall).thenReturn(mocking.getPrice());
     }
 }

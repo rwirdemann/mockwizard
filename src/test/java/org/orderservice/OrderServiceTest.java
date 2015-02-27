@@ -55,7 +55,7 @@ public class OrderServiceTest {
     public void shouldDenyOrder() throws Exception {
 
         // GIVEN: Limit exceeding order price
-        Mockwizard.when("quoteservice.getPrice").thenReturn(210.0);
+        Mockwizard.when("quoteservice.getPrice").with("TSLA").thenReturn(210.0);
 
         // WHEN: Order requested
         WebResource resource = client.resource(HOST).path("orders");
