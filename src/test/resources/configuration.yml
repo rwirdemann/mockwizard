@@ -8,7 +8,7 @@ server:
       port: 9051
 
 quoteService:
-  type: mock
+  type: MOCK
 
 clearingService:
-  type: mock
+  type: MOCK

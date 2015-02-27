@@ -5,25 +5,23 @@ import io.dropwizard.setup.Environment;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.mockito.Mockito;
 import org.mockwizard.MockingResource;
+import org.mockwizard.ServiceType;
 
 public class QuoteServiceFactory {
 
     @JsonProperty
     @NotEmpty
-    private Type type;
+    private ServiceType type;
 
     public QuoteService quoteService(Environment environment, MockingResource mockValueResource) {
         switch (type) {
-            case mock:
+            case MOCK:
                 QuoteService quoteService = Mockito.mock(QuoteService.class);
                 mockValueResource.addMock("quoteservice", quoteService);
                 return quoteService;
-            case real: return new RealQuoteService();
+            case REAL:
+                return new RealQuoteService();
         }
         throw new RuntimeException("Unknown service type: " + type);
-    }
-
-    enum Type {
-        mock, real;
     }
 }
