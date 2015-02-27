@@ -20,7 +20,7 @@ public class QuoteServiceFactory {
                 mockValueResource.addMock("quoteservice", quoteService);
                 return quoteService;
             case REAL:
-                return new RealQuoteService();
+                return new QuoteService();
         }
         throw new RuntimeException("Unknown service type: " + type);
     }

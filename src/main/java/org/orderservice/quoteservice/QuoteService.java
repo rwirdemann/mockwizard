@@ -2,6 +2,9 @@ package org.orderservice.quoteservice;
 
 import org.mockwizard.MockableService;
 
-public interface QuoteService extends MockableService {
-    double getPrice(String symbol);
+public class QuoteService implements MockableService {
+    
+    public double getPrice(String symbol) {
+        return 0;
+    }
 }
