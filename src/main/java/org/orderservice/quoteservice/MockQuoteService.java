@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MockQuoteService implements QuoteService {
-    private Map<String, Stubbing> provisions = new HashMap<String, Stubbing>();
+    private Map<String, Mocking> provisions = new HashMap<String, Mocking>();
 
     @Override
     public double getPrice(String symbol) {
@@ -15,7 +15,7 @@ public class MockQuoteService implements QuoteService {
         }
     }
 
-    public void addQuoteProvision(Stubbing provision) {
+    public void addQuoteProvision(Mocking provision) {
         provisions.put(provision.getSymbol(), provision);
     }
 

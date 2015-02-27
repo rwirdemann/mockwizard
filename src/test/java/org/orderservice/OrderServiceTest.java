@@ -8,7 +8,7 @@ import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.mockwizard.MockingClient;
+import org.mockwizard.Mockwizard;
 import org.orderservice.application.OrderServiceApplication;
 import org.orderservice.application.OrderServiceConfiguration;
 import org.orderservice.clearingsystem.Clearing;
@@ -57,8 +57,7 @@ public class OrderServiceTest {
     public void shouldDenyOrder() throws Exception {
 
         // GIVEN: Limit exceeding order price
-        MockingClient stubbingClient = new MockingClient();
-        stubbingClient.when("quoteservice.getPrice").thenReturn(210.0);
+        Mockwizard.when("quoteservice.getPrice").thenReturn(210.0);
 
         // WHEN: Order requested
         WebResource resource = client.resource(HOST).path("orders");

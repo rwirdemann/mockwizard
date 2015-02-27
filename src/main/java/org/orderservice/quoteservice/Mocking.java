@@ -2,7 +2,7 @@ package org.orderservice.quoteservice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Stubbing {
+public class Mocking {
 
     @JsonProperty
     private String servicename;
@@ -16,10 +16,10 @@ public class Stubbing {
     @JsonProperty
     private double price;
 
-    public Stubbing() {
+    public Mocking() {
     }
 
-    public Stubbing(String servicename, String methodname) {
+    public Mocking(String servicename, String methodname) {
         this.servicename = servicename;
         this.methodname = methodname;
     }

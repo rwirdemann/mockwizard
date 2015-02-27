@@ -1,7 +1,7 @@
 package org.mockwizard;
 
 import org.mockito.Mockito;
-import org.orderservice.quoteservice.Stubbing;
+import org.orderservice.quoteservice.Mocking;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -19,7 +19,7 @@ public class MockingResource {
     }
 
     @POST
-    public void create(Stubbing stubbing) throws Exception {
+    public void create(Mocking stubbing) throws Exception {
         MockableService mockableService = services.get(stubbing.getServicename());
         Method method = mockableService.getClass().getMethod(stubbing.getMethodname(), String.class);
         Object methodCall = method.invoke(mockableService, stubbing.getSymbol());
