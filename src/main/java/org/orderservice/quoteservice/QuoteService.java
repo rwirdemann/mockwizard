@@ -1,5 +1,8 @@
 package org.orderservice.quoteservice;
 
-public interface QuoteService {
-    double getPrice(String symbol);
+public class QuoteService {
+
+    public double getPrice(String symbol) {
+        return 0;
+    }
 }

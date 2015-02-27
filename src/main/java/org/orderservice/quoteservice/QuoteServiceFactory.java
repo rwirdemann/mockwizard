@@ -1,27 +1,24 @@
 package org.orderservice.quoteservice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.dropwizard.setup.Environment;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.mockito.Mockito;
+import org.mockwizard.Mockwizard;
+import org.mockwizard.ServiceType;
 
 public class QuoteServiceFactory {
 
     @JsonProperty
     @NotEmpty
-    private Type type;
+    private ServiceType type;
 
-    public QuoteService quoteService(Environment environment) {
+    public QuoteService quoteService() {
         switch (type) {
-            case mock:
-                QuoteService quoteService = new MockQuoteService();
-                environment.jersey().register(new QuoteServiceProvisionResource(quoteService));
-                return quoteService;
-            case real: return new RealQuoteService();
+            case MOCK:
+                return Mockwizard.mock(QuoteService.class);
+            case REAL:
+                return new QuoteService();
         }
         throw new RuntimeException("Unknown service type: " + type);
-    }
-
-    enum Type {
-        mock, real;
     }
 }
