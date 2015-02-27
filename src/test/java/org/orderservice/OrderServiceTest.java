@@ -17,9 +17,7 @@ import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class OrderServiceTest {
@@ -71,7 +69,7 @@ public class OrderServiceTest {
 
     @Test
     public void shouldClearOrder() throws Exception {
-        
+
         // WHEN: Order requested
         WebResource resource = client.resource(HOST).path("orders");
         Order o = new Order("TSLA", 5, 200.0);
