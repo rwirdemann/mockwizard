@@ -1,7 +1,6 @@
 package org.mockwizard;
 
 import org.mockito.Mockito;
-import org.orderservice.quoteservice.Mocking;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

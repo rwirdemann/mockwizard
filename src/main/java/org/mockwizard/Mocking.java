@@ -1,4 +1,4 @@
-package org.orderservice.quoteservice;
+package org.mockwizard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.mockwizard.Param;

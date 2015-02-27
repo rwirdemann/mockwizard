@@ -4,7 +4,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.setup.Environment;
 import org.mockito.Mockito;
-import org.orderservice.quoteservice.Mocking;
 
 import javax.ws.rs.core.MediaType;
 import java.util.HashMap;
