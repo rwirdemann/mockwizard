@@ -6,18 +6,18 @@ import org.mockito.Mockito;
 import org.mockwizard.Mockwizard;
 import org.mockwizard.ServiceType;
 
-public class QuoteServiceFactory {
+public class ServiceFactory<T> {
 
     @JsonProperty
     @NotEmpty
     private ServiceType type;
 
-    public QuoteService quoteService() {
+    public <T> T quoteService(Class<T> tClass) throws IllegalAccessException, InstantiationException {
         switch (type) {
             case MOCK:
-                return Mockwizard.mock(QuoteService.class);
+                return Mockwizard.mock(tClass);
             case REAL:
-                return new QuoteService();
+                return tClass.newInstance();
         }
         throw new RuntimeException("Unknown service type: " + type);
     }

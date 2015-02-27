@@ -8,6 +8,7 @@ import org.mockwizard.MockingResource;
 import org.mockwizard.Mockwizard;
 import org.orderservice.OrderRepository;
 import org.orderservice.OrderResource;
+import org.orderservice.quoteservice.QuoteService;
 
 public class OrderServiceApplication extends Application<OrderServiceConfiguration> {
 
@@ -21,8 +22,10 @@ public class OrderServiceApplication extends Application<OrderServiceConfigurati
 
         Mockwizard.init(environment);
 
+        QuoteService o = (QuoteService) configuration.quoteServiceFactory.quoteService(QuoteService.class);
+
         environment.jersey().register(new OrderResource(new OrderRepository(mongo.getDB("orderservice")),
-                configuration.quoteServiceFactory.quoteService(),
+                o,
                 configuration.clearingServiceFactory.clearingService(environment)));
     }
 
