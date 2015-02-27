@@ -22,10 +22,8 @@ public class OrderServiceApplication extends Application<OrderServiceConfigurati
 
         Mockwizard.init(environment);
 
-        QuoteService o = (QuoteService) configuration.quoteServiceFactory.quoteService(QuoteService.class);
-
         environment.jersey().register(new OrderResource(new OrderRepository(mongo.getDB("orderservice")),
-                o,
+                configuration.quoteServiceFactory.quoteService(QuoteService.class),
                 configuration.clearingServiceFactory.clearingService(environment)));
     }
 

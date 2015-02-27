@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.orderservice.clearingsystem.ClearingServiceFactory;
-import org.orderservice.quoteservice.ServiceFactory;
+import org.orderservice.quoteservice.QuoteService;
+import org.mockwizard.ServiceFactory;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -24,7 +25,7 @@ public class OrderServiceConfiguration extends Configuration {
     public String mongodb = "orderservice";
 
     @JsonProperty("quoteService")
-    public ServiceFactory quoteServiceFactory;
+    public ServiceFactory<QuoteService> quoteServiceFactory;
 
     @JsonProperty("clearingService")
     public ClearingServiceFactory clearingServiceFactory;
