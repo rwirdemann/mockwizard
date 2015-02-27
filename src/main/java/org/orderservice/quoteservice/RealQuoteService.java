@@ -1,6 +1,9 @@
 package org.orderservice.quoteservice;
 
-public class RealQuoteService implements QuoteService {
+import org.mockwizard.MockableService;
+
+public class RealQuoteService implements QuoteService, MockableService {
+
     @Override
     public double getPrice(String symbol) {
         return 0;

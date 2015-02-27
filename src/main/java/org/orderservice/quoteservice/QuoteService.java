@@ -1,5 +1,7 @@
 package org.orderservice.quoteservice;
 
-public interface QuoteService {
+import org.mockwizard.MockableService;
+
+public interface QuoteService extends MockableService {
     double getPrice(String symbol);
 }

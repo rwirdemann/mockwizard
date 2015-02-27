@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.setup.Environment;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.mockito.Mockito;
-import org.mockwizard.StubbingResource;
+import org.mockwizard.MockingResource;
 
 public class QuoteServiceFactory {
 
@@ -12,7 +12,7 @@ public class QuoteServiceFactory {
     @NotEmpty
     private Type type;
 
-    public QuoteService quoteService(Environment environment, StubbingResource mockValueResource) {
+    public QuoteService quoteService(Environment environment, MockingResource mockValueResource) {
         switch (type) {
             case mock:
                 QuoteService quoteService = Mockito.mock(QuoteService.class);

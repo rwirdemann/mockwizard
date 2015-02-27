@@ -6,14 +6,14 @@ import org.orderservice.quoteservice.Stubbing;
 
 import javax.ws.rs.core.MediaType;
 
-public class StubbingClient {
+public class MockingClient {
     public static final String HOST = "http://localhost:9050";
     private Client client = new Client();
     private Stubbing stubbing;
     private String servicename;
     private String methodname;
 
-    public StubbingClient when(String methodCall) {
+    public MockingClient when(String methodCall) {
         this.servicename = methodCall.split("\\.")[0];
         this.methodname = methodCall.split("\\.")[1];
         stubbing = new Stubbing(servicename, methodname);
@@ -21,7 +21,7 @@ public class StubbingClient {
     }
 
     public void thenReturn(double v) {
-        WebResource provisionResource = client.resource(HOST).path("stubbings");
+        WebResource provisionResource = client.resource(HOST).path("mockings");
         stubbing.setSymbol("TSLA");
         stubbing.setPrice(v);
         provisionResource.type(MediaType.APPLICATION_JSON_TYPE).entity(stubbing).post();
