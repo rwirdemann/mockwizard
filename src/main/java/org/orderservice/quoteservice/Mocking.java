@@ -55,6 +55,10 @@ public class Mocking {
         return methodname;
     }
 
+    public List<Param> getParams() {
+        return params;
+    }
+
     public void addParam(String s) {
         params.add(new Param(String.class, s));
     }

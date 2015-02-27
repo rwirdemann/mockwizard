@@ -17,4 +17,12 @@ public class Param<T> {
         this.aClass = aClass;
         this.value = value;
     }
+
+    public Class<T> getaClass() {
+        return aClass;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }
