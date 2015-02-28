@@ -1,8 +1,8 @@
 ## Hinweis für Leser JavaSpektrum Artikels "Über das Testen von Microservices"
-Der im Master-Branch enthaltene Code wurde in den letzten Wochen massgeblich weiterentwickelt. Den im Artikel 
-verwendeten Beispielcode finden Sie im Branch https://github.com/rwirdemann/orderservice/tree/javaspektrum.
+Der im Master-Branch dieses Repositories enthaltene Code wurde in den letzten Wochen massgeblich weiterentwickelt. 
+Den im Artikel verwendeten Beispielcode finden Sie im Branch https://github.com/rwirdemann/orderservice/tree/javaspektrum.
 
-## Mockwizard: 
+## Mockwizard
 Mockwizard ist ein Framework für das Mock-basierte Testen von Microservices.
 
 ## Voraussetzung 

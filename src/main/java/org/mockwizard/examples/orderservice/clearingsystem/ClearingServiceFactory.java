@@ -1,4 +1,4 @@
-package org.orderservice.clearingsystem;
+package org.mockwizard.examples.orderservice.clearingsystem;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.setup.Environment;

@@ -1,4 +1,4 @@
-package org.orderservice.clearingsystem;
+package org.mockwizard.examples.orderservice.clearingsystem;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

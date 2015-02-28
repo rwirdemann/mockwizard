@@ -1,10 +1,10 @@
-package org.orderservice.application;
+package org.mockwizard.examples.orderservice.application;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.orderservice.clearingsystem.ClearingServiceFactory;
-import org.orderservice.quoteservice.QuoteService;
+import org.mockwizard.examples.orderservice.clearingsystem.ClearingServiceFactory;
+import org.mockwizard.examples.orderservice.quoteservice.QuoteService;
 import org.mockwizard.ServiceFactory;
 
 import javax.validation.constraints.Max;

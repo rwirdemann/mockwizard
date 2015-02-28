@@ -1,4 +1,4 @@
-package org.orderservice;
+package org.mockwizard.examples.orderservice;
 
 import com.google.common.io.Resources;
 import com.mongodb.Mongo;
@@ -9,9 +9,9 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockwizard.Mockwizard;
-import org.orderservice.application.OrderServiceApplication;
-import org.orderservice.application.OrderServiceConfiguration;
-import org.orderservice.clearingsystem.Clearing;
+import org.mockwizard.examples.orderservice.application.OrderServiceApplication;
+import org.mockwizard.examples.orderservice.application.OrderServiceConfiguration;
+import org.mockwizard.examples.orderservice.clearingsystem.Clearing;
 
 import javax.ws.rs.core.MediaType;
 import java.io.File;

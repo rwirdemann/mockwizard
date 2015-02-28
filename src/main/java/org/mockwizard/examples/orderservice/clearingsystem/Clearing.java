@@ -1,4 +1,4 @@
-package org.orderservice.clearingsystem;
+package org.mockwizard.examples.orderservice.clearingsystem;
 
 public class Clearing {
     private int count = 1;

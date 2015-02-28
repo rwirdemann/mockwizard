@@ -1,4 +1,4 @@
-package org.orderservice.quoteservice;
+package org.mockwizard.examples.orderservice.quoteservice;
 
 public class QuoteService {
 

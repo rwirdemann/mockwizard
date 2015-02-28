@@ -1,4 +1,4 @@
-package org.orderservice;
+package org.mockwizard.examples.orderservice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,7 +1,7 @@
-package org.orderservice;
+package org.mockwizard.examples.orderservice;
 
-import org.orderservice.clearingsystem.ClearingService;
-import org.orderservice.quoteservice.QuoteService;
+import org.mockwizard.examples.orderservice.clearingsystem.ClearingService;
+import org.mockwizard.examples.orderservice.quoteservice.QuoteService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

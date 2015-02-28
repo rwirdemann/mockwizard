@@ -1,6 +1,6 @@
-package org.orderservice.clearingsystem;
+package org.mockwizard.examples.orderservice.clearingsystem;
 
-import org.orderservice.Order;
+import org.mockwizard.examples.orderservice.Order;
 
 import java.util.HashMap;
 import java.util.Map;
