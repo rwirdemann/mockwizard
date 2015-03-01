@@ -9,36 +9,41 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.mockwizard.Mockwizard;
-import org.mockwizard.examples.orderservice.Order;
 
-import javax.ws.rs.core.MediaType;
 import java.io.File;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class SampleServiceTest {
     public static final String HOST = "http://localhost:9060";
-    private Client client = new Client();
 
     @ClassRule
     public static final DropwizardAppRule<SampleServiceConfiguration> RULE =
             new DropwizardAppRule<SampleServiceConfiguration>(SampleServiceApplication.class, resourceFilePath("sample-service-config.yml"));
+    
+    private SampleClient sampleClient;
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUpClass() throws Exception {
         Mockwizard.setup(RULE.getLocalPort());
     }
 
+    @Before
+    public void setUp() throws Exception {
+        sampleClient = new SampleClient();
+    }
+
     @Test
-    public void simpleMockTest() throws Exception {
+    public void mockNoParameter() throws Exception {
         Mockwizard.when("partnerservice.foo").thenReturn(1);
-        
-        WebResource resource = client.resource(HOST).path("samples/foo");
-        ClientResponse clientResponse = resource.get(ClientResponse.class);
-        assertEquals(Integer.valueOf(1), clientResponse.getEntity(Integer.class));
+        assertEquals(1, sampleClient.foo());
+    }
+
+    @Test
+    public void mockWithParameter() throws Exception {
+        Mockwizard.when("partnerservice.foo").with("hello").thenReturn(2);
+        assertEquals(2, sampleClient.foo("hello"));
     }
 
     private static String resourceFilePath(String s) {
@@ -46,6 +51,22 @@ public class SampleServiceTest {
             return new File(Resources.getResource(s).toURI()).getAbsolutePath();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private static class SampleClient {
+        private Client client = new Client();
+
+        int foo() {
+            WebResource resource = client.resource(HOST).path("samples/foo");
+            ClientResponse clientResponse = resource.get(ClientResponse.class);
+            return clientResponse.getEntity(Integer.class);
+        }
+
+        public int foo(String s) {
+            WebResource resource = client.resource(HOST).path("samples/foo").path(s);
+            ClientResponse clientResponse = resource.get(ClientResponse.class);
+            return clientResponse.getEntity(Integer.class);
         }
     }
 }

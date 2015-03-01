@@ -2,6 +2,7 @@ package org.mockwizard.examples.sampleservice;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -20,6 +21,13 @@ public class SampleResource {
     @Path("/foo")
     public Response foo() {
         int result = partnerService.foo();
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("/foo/{s}")
+    public Response foo(@PathParam("s") String s) {
+        int result = partnerService.foo(s);
         return Response.ok(result).build();
     }
 }
