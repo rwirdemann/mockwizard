@@ -34,12 +34,11 @@ public class SampleServiceTest {
 
     @Test
     public void simpleMockTest() throws Exception {
-        Mockwizard.when("partnerservice.foo").thenReturn(0);
+        Mockwizard.when("partnerservice.foo").thenReturn(1);
         
         WebResource resource = client.resource(HOST).path("samples/foo");
         ClientResponse clientResponse = resource.get(ClientResponse.class);
-        assertEquals(200, clientResponse.getStatus());
-        assertEquals(Integer.valueOf(0), clientResponse.getEntity(Integer.class));
+        assertEquals(Integer.valueOf(1), clientResponse.getEntity(Integer.class));
     }
 
     private static String resourceFilePath(String s) {

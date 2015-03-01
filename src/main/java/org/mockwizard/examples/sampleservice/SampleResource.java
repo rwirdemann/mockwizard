@@ -19,7 +19,7 @@ public class SampleResource {
     @GET
     @Path("/foo")
     public Response foo() {
-        partnerService.foo();
-        return Response.ok(0).build();
+        int result = partnerService.foo();
+        return Response.ok(result).build();
     }
 }
