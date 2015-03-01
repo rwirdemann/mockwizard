@@ -11,9 +11,9 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class SampleResource {
 
-    private PartnerService partnerService;
+    private Gateway partnerService;
 
-    public SampleResource(PartnerService partnerService) {
+    public SampleResource(Gateway partnerService) {
         this.partnerService = partnerService;
     }
 

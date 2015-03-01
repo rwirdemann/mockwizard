@@ -2,9 +2,9 @@ package org.mockwizard.examples.sampleservice;
 
 public class SampleService {
     
-    private PartnerService partnerService;
+    private Gateway gateway;
     
     public int foo() {
-        return partnerService.foo();
+        return gateway.foo();
     }
 }

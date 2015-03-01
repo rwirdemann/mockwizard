@@ -1,6 +1,6 @@
 package org.mockwizard.examples.sampleservice;
 
-public class PartnerService {
+public class Gateway {
     
     public int foo() {
         return 0;

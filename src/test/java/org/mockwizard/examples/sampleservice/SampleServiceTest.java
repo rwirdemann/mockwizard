@@ -29,14 +29,14 @@ public class SampleServiceTest {
 
     @Test
     public void mockNoParameter() throws Exception {
-        Mockwizard.when("partnerservice.foo").thenReturn(1);
+        Mockwizard.when("gateway.foo").thenReturn(1);
         assertEquals(1, sampleClient.foo());
     }
 
     @Test
     public void mockWithParameter() throws Exception {
-        Mockwizard.when("partnerservice.foo").with("hello").thenReturn(2);
-        Mockwizard.when("partnerservice.foo").with("hallo").thenReturn(3);
+        Mockwizard.when("gateway.foo").with("hello").thenReturn(2);
+        Mockwizard.when("gateway.foo").with("hallo").thenReturn(3);
         
         assertEquals(2, sampleClient.foo("hello"));
         assertEquals(3, sampleClient.foo("hallo"));

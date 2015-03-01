@@ -7,7 +7,7 @@ server:
     - type: http
       port: 9061
       
-partnerService:
+gateway:
       type: MOCK
       
 logging:

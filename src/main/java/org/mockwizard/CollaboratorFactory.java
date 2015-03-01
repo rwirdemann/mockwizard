@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 import org.mockwizard.Mockwizard;
 import org.mockwizard.ServiceType;
 
-public class ServiceFactory<T> {
+public class CollaboratorFactory<T> {
 
     @JsonProperty
     @NotEmpty
