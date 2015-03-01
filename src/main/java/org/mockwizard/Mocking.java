@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("UnusedDeclaration")
 public class Mocking<T> {
 
     @JsonProperty
@@ -14,27 +15,16 @@ public class Mocking<T> {
     private String methodname;
 
     @JsonProperty
-    private double price;
-
-    @JsonProperty
     private List<Param> params = new ArrayList<Param>();
-    
+
     private T returnValue;
-    
+
     public Mocking() {
     }
 
     public Mocking(String servicename, String methodname) {
         this.servicename = servicename;
         this.methodname = methodname;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getPrice() {
-        return price;
     }
 
     public String getServicename() {
@@ -52,7 +42,7 @@ public class Mocking<T> {
     public void addParam(String s) {
         params.add(new Param(String.class, s));
     }
-    
+
     public void setReturnValue(T returnValue) {
         this.returnValue = returnValue;
     }

@@ -36,7 +36,10 @@ public class SampleServiceTest {
     @Test
     public void mockWithParameter() throws Exception {
         Mockwizard.when("partnerservice.foo").with("hello").thenReturn(2);
+        Mockwizard.when("partnerservice.foo").with("hallo").thenReturn(3);
+        
         assertEquals(2, sampleClient.foo("hello"));
+        assertEquals(3, sampleClient.foo("hallo"));
     }
 
     private static String resourceFilePath(String s) {
