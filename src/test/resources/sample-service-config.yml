@@ -6,3 +6,9 @@ server:
   adminConnectors:
     - type: http
       port: 9061
+      
+partnerService:
+      type: MOCK
+      
+logging:
+      level: warn
