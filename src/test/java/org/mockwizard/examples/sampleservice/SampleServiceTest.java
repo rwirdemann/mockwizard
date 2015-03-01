@@ -5,7 +5,6 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -16,22 +15,16 @@ import java.io.File;
 import static org.junit.Assert.assertEquals;
 
 public class SampleServiceTest {
-    public static final String HOST = "http://localhost:9060";
 
     @ClassRule
     public static final DropwizardAppRule<SampleServiceConfiguration> RULE =
             new DropwizardAppRule<SampleServiceConfiguration>(SampleServiceApplication.class, resourceFilePath("sample-service-config.yml"));
-    
-    private SampleClient sampleClient;
+
+    private SampleClient sampleClient = new SampleClient(RULE.getLocalPort());
 
     @BeforeClass
     public static void setUpClass() throws Exception {
         Mockwizard.setup(RULE.getLocalPort());
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        sampleClient = new SampleClient();
     }
 
     @Test
@@ -55,16 +48,21 @@ public class SampleServiceTest {
     }
 
     private static class SampleClient {
+        private final String baseUri;
         private Client client = new Client();
 
+        public SampleClient(int localPort) {
+            baseUri = "http://localhost:" + localPort;
+        }
+
         int foo() {
-            WebResource resource = client.resource(HOST).path("samples/foo");
+            WebResource resource = client.resource(baseUri).path("samples/foo");
             ClientResponse clientResponse = resource.get(ClientResponse.class);
             return clientResponse.getEntity(Integer.class);
         }
 
         public int foo(String s) {
-            WebResource resource = client.resource(HOST).path("samples/foo").path(s);
+            WebResource resource = client.resource(baseUri).path("samples/foo").path(s);
             ClientResponse clientResponse = resource.get(ClientResponse.class);
             return clientResponse.getEntity(Integer.class);
         }
