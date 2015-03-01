@@ -1,12 +1,11 @@
 package org.mockwizard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.mockwizard.Param;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mocking {
+public class Mocking<T> {
 
     @JsonProperty
     private String servicename;
@@ -15,14 +14,13 @@ public class Mocking {
     private String methodname;
 
     @JsonProperty
-    private String symbol;
-
-    @JsonProperty
     private double price;
 
     @JsonProperty
     private List<Param> params = new ArrayList<Param>();
-
+    
+    private T returnValue;
+    
     public Mocking() {
     }
 
@@ -33,14 +31,6 @@ public class Mocking {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public String getSymbol() {
-        return symbol;
     }
 
     public double getPrice() {
@@ -61,5 +51,13 @@ public class Mocking {
 
     public void addParam(String s) {
         params.add(new Param(String.class, s));
+    }
+    
+    public void setReturnValue(T returnValue) {
+        this.returnValue = returnValue;
+    }
+
+    public T getReturnValue() {
+        return returnValue;
     }
 }

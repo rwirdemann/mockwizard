@@ -6,6 +6,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockwizard.Mockwizard;
@@ -28,6 +29,10 @@ public class OrderServiceTest {
     public static final DropwizardAppRule<OrderServiceConfiguration> RULE =
             new DropwizardAppRule<OrderServiceConfiguration>(OrderServiceApplication.class, resourceFilePath("configuration.yml"));
 
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+        Mockwizard.setup(RULE.getLocalPort());
+    }
 
     @Before
     public void setUp() throws Exception {

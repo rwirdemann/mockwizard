@@ -25,6 +25,6 @@ public class MockingResource {
 
         Method method = mock.getClass().getMethod(mocking.getMethodname(), parameterTypes);
         Object methodCall = method.invoke(mock, args);
-        Mockito.when(methodCall).thenReturn(mocking.getPrice());
+        Mockito.when(methodCall).thenReturn(mocking.getReturnValue());
     }
 }

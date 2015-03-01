@@ -2,6 +2,7 @@ package org.mockwizard.examples.sampleservice;
 
 public class PartnerService {
     
-    public void noMocking() {
+    public int foo() {
+        return 0;
     }
 }

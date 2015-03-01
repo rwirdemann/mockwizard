@@ -3,6 +3,7 @@ package org.mockwizard;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.setup.Environment;
+import org.apache.commons.lang.StringUtils;
 import org.mockito.Mockito;
 
 import javax.ws.rs.core.MediaType;
@@ -10,11 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Mockwizard {
-    public static final String HOST = "http://localhost:9050";
-
     private static Map<String, Object> services = new HashMap<String, Object>();
     private final Client client = new Client();
     private final Mocking mocking;
+    private static String baseURI;
 
     public Mockwizard(String servicename, String methodname) {
         mocking = new Mocking(servicename, methodname);
@@ -26,10 +26,12 @@ public class Mockwizard {
         return new Mockwizard(servicename, methodname);
     }
 
-    public void thenReturn(double v) {
-        WebResource provisionResource = client.resource(HOST).path("mockings");
-        mocking.setSymbol("TSLA");
-        mocking.setPrice(v);
+    public <T> void thenReturn(T v) {
+        if (StringUtils.isBlank(baseURI)) {
+            throw new RuntimeException("Make sure to call Mockwizard.setup(int port) in your test class");
+        }
+        WebResource provisionResource = client.resource(baseURI).path("mockings");
+        mocking.setReturnValue(v);
         provisionResource.type(MediaType.APPLICATION_JSON_TYPE).entity(mocking).post();
     }
 
@@ -51,5 +53,9 @@ public class Mockwizard {
 
     public static <T> Object get(String servicename) {
         return services.get(servicename);
+    }
+
+    public static void setup(int port) {
+       baseURI = "http://localhost:" + port;
     }
 }

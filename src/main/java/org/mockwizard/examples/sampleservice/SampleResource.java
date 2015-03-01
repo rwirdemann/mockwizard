@@ -10,9 +10,16 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class SampleResource {
 
+    private PartnerService partnerService;
+
+    public SampleResource(PartnerService partnerService) {
+        this.partnerService = partnerService;
+    }
+
     @GET
-    @Path("/simple")
-    public Response simple() {
-        return Response.ok().build();
+    @Path("/foo")
+    public Response foo() {
+        partnerService.foo();
+        return Response.ok(0).build();
     }
 }

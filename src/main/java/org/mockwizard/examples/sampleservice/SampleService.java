@@ -4,8 +4,7 @@ public class SampleService {
     
     private PartnerService partnerService;
     
-    public void noMocking() {
-        
-        
+    public int foo() {
+        return partnerService.foo();
     }
 }

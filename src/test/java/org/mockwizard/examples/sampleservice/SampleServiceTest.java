@@ -5,8 +5,12 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockwizard.Mockwizard;
 import org.mockwizard.examples.orderservice.Order;
 
 import javax.ws.rs.core.MediaType;
@@ -23,11 +27,19 @@ public class SampleServiceTest {
     public static final DropwizardAppRule<SampleServiceConfiguration> RULE =
             new DropwizardAppRule<SampleServiceConfiguration>(SampleServiceApplication.class, resourceFilePath("sample-service-config.yml"));
 
+    @BeforeClass
+    public static void setUp() throws Exception {
+        Mockwizard.setup(RULE.getLocalPort());
+    }
+
     @Test
     public void simpleMockTest() throws Exception {
-        WebResource resource = client.resource(HOST).path("samples/simple");
+        Mockwizard.when("partnerservice.foo").thenReturn(0);
+        
+        WebResource resource = client.resource(HOST).path("samples/foo");
         ClientResponse clientResponse = resource.get(ClientResponse.class);
         assertEquals(200, clientResponse.getStatus());
+        assertEquals(Integer.valueOf(0), clientResponse.getEntity(Integer.class));
     }
 
     private static String resourceFilePath(String s) {

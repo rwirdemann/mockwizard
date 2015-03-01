@@ -14,7 +14,7 @@ public class SampleServiceApplication extends Application<SampleServiceConfigura
     @Override
     public void run(SampleServiceConfiguration configuration, Environment environment) throws Exception {
         Mockwizard.init(environment);
-        environment.jersey().register(new SampleResource());
+        environment.jersey().register(new SampleResource(configuration.partnerServiceFactory.quoteService(PartnerService.class)));
     }
 
     public static void main(String[] args) throws Exception {
