@@ -36,7 +36,7 @@ public class SampleServiceApplication extends Application<SampleServiceConfigura
 }
 ```
 
-#### 4. Write external tests against the service
+##### 4. Write external tests against the service
 ```
 public class SampleServiceTest {
 
@@ -51,6 +51,7 @@ public class SampleServiceTest {
 Pleases clone this repository and study the examples in org/mockwizard/examples:
 ```
 $ git clone https://github.com/rwirdemann/mockwizard
+$ cd mockwizard
 $ mvn clean test
 ```
 
