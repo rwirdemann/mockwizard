@@ -34,13 +34,18 @@ public class SampleServiceTest {
     }
 
     @Test
-    public void mockWithParameter() throws Exception {
+    public void mockWithStringParameter() throws Exception {
         Mockwizard.when("gateway.foo").with("hello").thenReturn(2);
         Mockwizard.when("gateway.foo").with("hallo").thenReturn(3);
         
         assertEquals(2, sampleClient.foo("hello"));
         assertEquals(3, sampleClient.foo("hallo"));
     }
+
+//    @Test
+//    public void mockWithIntegerParameter() throws Exception {
+//        Mockwizard.when("gateway.foo").with(3).thenReturn(3);
+//    }
 
     private static String resourceFilePath(String s) {
         try {

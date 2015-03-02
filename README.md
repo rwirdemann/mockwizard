@@ -28,6 +28,7 @@ gateway:
 ```
 public class SampleServiceApplication extends Application<SampleServiceConfiguration> 
 
+
   @Override
   public void run(SampleServiceConfiguration c, Environment e) throws Exception {
       Mockwizard.init(environment);

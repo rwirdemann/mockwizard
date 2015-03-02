@@ -8,12 +8,12 @@ public class Param<T> {
     private Class<T> aClass;
 
     @JsonProperty
-    private String value;
+    private T value;
 
     public Param() {
     }
 
-    public Param(Class<T> aClass, String value) {
+    public Param(Class<T> aClass, T value) {
         this.aClass = aClass;
         this.value = value;
     }
@@ -22,7 +22,7 @@ public class Param<T> {
         return aClass;
     }
 
-    public String getValue() {
+    public T getValue() {
         return value;
     }
 }
