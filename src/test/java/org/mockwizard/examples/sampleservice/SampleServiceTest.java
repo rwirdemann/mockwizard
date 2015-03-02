@@ -42,10 +42,11 @@ public class SampleServiceTest {
         assertEquals(3, sampleClient.foo("hallo"));
     }
 
-//    @Test
-//    public void mockWithIntegerParameter() throws Exception {
-//        Mockwizard.when("gateway.foo").with(3).thenReturn(3);
-//    }
+    @Test
+    public void mockWithIntegerParameter() throws Exception {
+        Mockwizard.when("gateway.foo").with(3).thenReturn(3);
+        assertEquals(3, sampleClient.foo(3));
+    }
 
     private static String resourceFilePath(String s) {
         try {
@@ -71,6 +72,12 @@ public class SampleServiceTest {
 
         public int foo(String s) {
             WebResource resource = client.resource(baseUri).path("samples/foo").path(s);
+            ClientResponse clientResponse = resource.get(ClientResponse.class);
+            return clientResponse.getEntity(Integer.class);
+        }
+
+        public int foo(Integer i) {
+            WebResource resource = client.resource(baseUri).path("samples/fooInteger");
             ClientResponse clientResponse = resource.get(ClientResponse.class);
             return clientResponse.getEntity(Integer.class);
         }

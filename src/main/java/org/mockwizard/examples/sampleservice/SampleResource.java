@@ -30,4 +30,11 @@ public class SampleResource {
         int result = partnerService.foo(s);
         return Response.ok(result).build();
     }
+
+    @GET
+    @Path("/fooInteger")
+    public Response fooInteger() {
+        int result = partnerService.foo(3);
+        return Response.ok(result).build();
+    }
 }
