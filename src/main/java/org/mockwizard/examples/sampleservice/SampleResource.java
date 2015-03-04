@@ -2,8 +2,8 @@ package org.mockwizard.examples.sampleservice;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -19,22 +19,17 @@ public class SampleResource {
 
     @GET
     @Path("/foo")
-    public Response foo() {
-        int result = partnerService.foo();
-        return Response.ok(result).build();
-    }
-
-    @GET
-    @Path("/foo/{s}")
-    public Response foo(@PathParam("s") String s) {
-        int result = partnerService.foo(s);
-        return Response.ok(result).build();
-    }
-
-    @GET
-    @Path("/fooInteger")
-    public Response fooInteger() {
-        int result = partnerService.foo(3);
+    public Response foo(@QueryParam(value = "string") String s, @QueryParam(value = "integer") Integer i) {
+        int result;
+        if (s != null && i != null) {
+            result = partnerService.foo(s, i);
+        } else if (s != null) {
+            result = partnerService.foo(s);
+        } else if (i != null) {
+            result = partnerService.foo(i);
+        } else {
+            result = partnerService.foo();
+        }
         return Response.ok(result).build();
     }
 }

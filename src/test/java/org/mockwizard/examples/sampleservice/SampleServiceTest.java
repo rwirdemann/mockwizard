@@ -48,6 +48,12 @@ public class SampleServiceTest {
         assertEquals(3, sampleClient.foo(3));
     }
 
+    @Test
+    public void mockWithTwoParameter() throws Exception {
+//        Mockwizard.when("gateway.foo").with("hello").with(4).thenReturn(4);
+//        assertEquals(4, sampleClient.foo("hello", 4));
+    }
+
     private static String resourceFilePath(String s) {
         try {
             return new File(Resources.getResource(s).toURI()).getAbsolutePath();
@@ -71,13 +77,13 @@ public class SampleServiceTest {
         }
 
         public int foo(String s) {
-            WebResource resource = client.resource(baseUri).path("samples/foo").path(s);
+            WebResource resource = client.resource(baseUri).path("samples/foo").queryParam("string", s);
             ClientResponse clientResponse = resource.get(ClientResponse.class);
             return clientResponse.getEntity(Integer.class);
         }
 
         public int foo(Integer i) {
-            WebResource resource = client.resource(baseUri).path("samples/fooInteger");
+            WebResource resource = client.resource(baseUri).path("samples/foo").queryParam("integer", Integer.toString(i));
             ClientResponse clientResponse = resource.get(ClientResponse.class);
             return clientResponse.getEntity(Integer.class);
         }
