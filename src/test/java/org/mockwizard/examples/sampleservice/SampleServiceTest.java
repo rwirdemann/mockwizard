@@ -50,8 +50,8 @@ public class SampleServiceTest {
 
     @Test
     public void mockWithTwoParameter() throws Exception {
-//        Mockwizard.when("gateway.foo").with("hello").with(4).thenReturn(4);
-//        assertEquals(4, sampleClient.foo("hello", 4));
+        Mockwizard.when("gateway.foo").with("hello").with(4).thenReturn(4);
+        assertEquals(4, sampleClient.foo("hello", 4));
     }
 
     private static String resourceFilePath(String s) {
@@ -87,5 +87,12 @@ public class SampleServiceTest {
             ClientResponse clientResponse = resource.get(ClientResponse.class);
             return clientResponse.getEntity(Integer.class);
         }
+
+        public int foo(String s, Integer i) {
+            WebResource resource = client.resource(baseUri).path("samples/foo").queryParam("string", s).queryParam("integer", Integer.toString(i));
+            ClientResponse clientResponse = resource.get(ClientResponse.class);
+            return clientResponse.getEntity(Integer.class);
+        }
+
     }
 }
