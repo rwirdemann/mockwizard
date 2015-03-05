@@ -1,5 +1,7 @@
 package org.mockwizard.examples.sampleservice;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,7 +21,9 @@ public class SampleResource {
 
     @GET
     @Path("/foo")
-    public Response foo(@QueryParam(value = "string") String s, @QueryParam(value = "integer") Integer i) {
+    public Response foo(@QueryParam(value = "string") String s, 
+                        @QueryParam(value = "integer") Integer i, 
+                        @QueryParam(value = "boolean") Boolean b) {
         int result;
         if (s != null && i != null) {
             result = partnerService.foo(s, i);
@@ -27,6 +31,8 @@ public class SampleResource {
             result = partnerService.foo(s);
         } else if (i != null) {
             result = partnerService.foo(i);
+        } else if (b != null) {
+            result = partnerService.foo(b);
         } else {
             result = partnerService.foo();
         }

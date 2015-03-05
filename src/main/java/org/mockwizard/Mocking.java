@@ -47,6 +47,10 @@ public class Mocking<T> {
         params.add(new Param(Integer.class, i));
     }
 
+    public void addParam(Boolean i) {
+        params.add(new Param(Boolean.class, i));
+    }
+
     public void setReturnValue(T returnValue) {
         this.returnValue = returnValue;
     }

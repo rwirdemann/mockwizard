@@ -17,4 +17,8 @@ public class Gateway {
     public int foo(String s, Integer i) {
         return 0;
     }
+
+    public int foo(Boolean b) {
+        return 0;
+    }
 }

@@ -34,7 +34,7 @@ public class SampleServiceTest {
     }
 
     @Test
-    public void mockWithStringParameter() throws Exception {
+    public void mockWithString() throws Exception {
         Mockwizard.when("gateway.foo").with("hello").thenReturn(2);
         Mockwizard.when("gateway.foo").with("hallo").thenReturn(3);
         
@@ -43,9 +43,15 @@ public class SampleServiceTest {
     }
 
     @Test
-    public void mockWithIntegerParameter() throws Exception {
+    public void mockWithInteger() throws Exception {
         Mockwizard.when("gateway.foo").with(3).thenReturn(3);
         assertEquals(3, sampleClient.foo(3));
+    }
+
+    @Test
+    public void mockWithBoolean() throws Exception {
+        Mockwizard.when("gateway.foo").with(true).thenReturn(7);
+        assertEquals(7, sampleClient.foo(true));
     }
 
     @Test
@@ -94,5 +100,10 @@ public class SampleServiceTest {
             return clientResponse.getEntity(Integer.class);
         }
 
+        public int foo(boolean b) {
+            WebResource resource = client.resource(baseUri).path("samples/foo").queryParam("boolean", Boolean.toString(b));
+            ClientResponse clientResponse = resource.get(ClientResponse.class);
+            return clientResponse.getEntity(Integer.class);
+        }
     }
 }
