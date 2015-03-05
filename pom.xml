@@ -41,7 +41,7 @@
                 <artifactId>jgitflow-maven-plugin</artifactId>
                 <version>1.0-m4.3</version>
                 <configuration>
-                    <!-- see goals wiki page for configuration options -->
+                    <noDeploy>true</noDeploy>
                 </configuration>
             </plugin>
             <plugin>
