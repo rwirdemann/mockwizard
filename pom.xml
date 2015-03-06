@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.mockwizard</groupId>
+    <groupId>org.mRemocockwizard</groupId>
     <artifactId>mockwizard</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Mockwizard</name>
@@ -28,7 +28,7 @@
         <developerConnection>scm:git:git@github.com:rwirdemann/mockwizard.git</developerConnection>
         <url>git@github.com:juven/rwirdemann/mockwizard.git</url>
     </scm>
-    
+
     <properties>
         <dropwizard.version>0.7.0</dropwizard.version>
     </properties>
@@ -44,12 +44,6 @@
             <artifactId>dropwizard-testing</artifactId>
             <version>${dropwizard.version}</version>
         </dependency>
-        <dependency>
-            <groupId>net.vz.mongodb.jackson</groupId>
-            <artifactId>mongo-jackson-mapper</artifactId>
-            <version>1.4.2</version>
-        </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>

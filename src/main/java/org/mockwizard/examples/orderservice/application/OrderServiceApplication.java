@@ -1,6 +1,5 @@
 package org.mockwizard.examples.orderservice.application;
 
-import com.mongodb.Mongo;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -18,14 +17,10 @@ public class OrderServiceApplication extends Application<OrderServiceConfigurati
 
     @Override
     public void run(OrderServiceConfiguration configuration, Environment environment) throws Exception {
-        Mongo mongo = new Mongo(configuration.mongohost, configuration.mongoport);
-
         Mockwizard.init(environment);
-
-        environment.jersey().register(new OrderResource(new OrderRepository(mongo.getDB("orderservice")),
+        environment.jersey().register(new OrderResource(new OrderRepository(),
                 configuration.quoteServiceFactory.quoteService(QuoteService.class),
                 configuration.clearingServiceFactory.clearingService(environment)));
-
         environment.healthChecks().register("dummy_health_check", new DummyHealthCheck());
     }
 

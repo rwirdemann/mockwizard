@@ -1,7 +1,6 @@
 package org.mockwizard.examples.orderservice;
 
 import com.google.common.io.Resources;
-import com.mongodb.Mongo;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.testing.junit.DropwizardAppRule;
@@ -37,9 +36,7 @@ public class OrderServiceTest {
     @Before
     public void setUp() throws Exception {
         client = new Client();
-        Mongo mongo = new Mongo(RULE.getConfiguration().mongohost, RULE.getConfiguration().mongoport);
-        OrderRepository orderRepository = new OrderRepository(mongo.getDB(RULE.getConfiguration().mongodb));
-        orderRepository.delete();
+        client.resource(HOST).path("orders").delete();
     }
 
     @Test

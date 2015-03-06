@@ -3,10 +3,7 @@ package org.mockwizard.examples.orderservice;
 import org.mockwizard.examples.orderservice.clearingsystem.ClearingService;
 import org.mockwizard.examples.orderservice.quoteservice.QuoteService;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.net.URI;
 import java.util.List;
@@ -29,7 +26,7 @@ public class OrderResource {
 
     @GET
     public List<Order> orders() {
-        return orderRepository.find().toArray();
+        return orderRepository.find();
     }
 
     @POST
@@ -46,4 +43,10 @@ public class OrderResource {
             return Response.noContent().build();
         }
     }
+
+    @DELETE
+    public void delete() {
+        orderRepository.delete();
+    }
+
 }

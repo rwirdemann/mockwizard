@@ -1,29 +1,20 @@
 package org.mockwizard.examples.orderservice;
 
-import com.mongodb.DB;
-import net.vz.mongodb.jackson.DBCursor;
-import net.vz.mongodb.jackson.DBQuery;
-import net.vz.mongodb.jackson.JacksonDBCollection;
-import net.vz.mongodb.jackson.WriteResult;
-import org.bson.types.ObjectId;
+import java.util.*;
 
 public class OrderRepository {
-    private final JacksonDBCollection<Order, String> orders;
+    private Map<String, Order> orders = new HashMap<String, Order>();
 
-    public OrderRepository(DB db) {
-        orders = JacksonDBCollection.wrap(db.getCollection("orders"), Order.class, String.class);
-    }
-
-    public DBCursor<Order> find() {
-        return orders.find();
+    public List<Order> find() {
+        return new ArrayList<Order>(orders.values());
     }
 
     public void delete() {
-        orders.remove(DBQuery.notExists("bla"));
+        orders.clear();
     }
 
     public void create(Order order) {
-        WriteResult<Order, String> save = orders.save(order);
-        order.set_id(ObjectId.massageToObjectId(save.getSavedId()).toString());
+        order.set_id(UUID.randomUUID().toString());
+        orders.put(order.get_id(), order);
     }
 }
