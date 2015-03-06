@@ -61,11 +61,11 @@ public class Mockwizard {
         return mock;
     }
 
-    public static <T> Object get(String servicename) {
+    public static Object get(String servicename) {
         return services.get(servicename);
     }
 
     public static void setup(int port) {
-       baseURI = "http://localhost:" + port;
+        baseURI = "http://localhost:" + port;
     }
 }
