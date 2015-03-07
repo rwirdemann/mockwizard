@@ -54,7 +54,7 @@ $ cd mockwizard
 $ mvn clean test
 ```
 
-Alternatively you can add Mockwizard to you project by downloading it from the central maven repository:
+Alternatively you can add Mockwizard to your project by downloading it from the central maven repository:
 ```
 <dependencies>
     <dependency>
