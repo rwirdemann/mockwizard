@@ -9,7 +9,7 @@ Test ---HTTP--> Microservice --> Gateway ---HTTP--> PartnerService
 
 Challenge: Mock the Gateway which is executed within a different process than the blackbox test. This is how Mockwizard adresses this challenge.
 
-##### 1. Add a CollaborationFactory to your service configuration class
+##### 1. Add a CollaboratorFactory to your service configuration class
 ```
 public class SampleServiceConfiguration extends Configuration {
 
@@ -26,9 +26,8 @@ gateway:
 
 ##### 3. Init Mockwizard in your application class
 ```
-public class SampleServiceApplication extends Application<SampleServiceConfiguration> 
-
-
+public class SampleServiceApplication extends Application<SampleServiceConfiguration>
+ 
   @Override
   public void run(SampleServiceConfiguration c, Environment e) throws Exception {
       Mockwizard.init(environment);
@@ -53,6 +52,18 @@ Pleases clone this repository and study the examples in org/mockwizard/examples:
 $ git clone https://github.com/rwirdemann/mockwizard
 $ cd mockwizard
 $ mvn clean test
+```
+
+Alternatively you can add Mockwizard to you project by downloading it from the central maven repository:
+```
+<dependencies>
+    <dependency>
+        <groupId>com.github.rwirdemann</groupId>
+        <artifactId>mockwizard</artifactId>
+        <version>0.0.1</version>
+    </dependency>
+</dependencies>
+
 ```
 
 Feedback is very welcome: ralf@ralfwirdemann.de
