@@ -23,7 +23,8 @@ public class SampleResource {
     @Path("/foo")
     public Response foo(@QueryParam(value = "string") String s, 
                         @QueryParam(value = "integer") Integer i, 
-                        @QueryParam(value = "boolean") Boolean b) {
+                        @QueryParam(value = "boolean") Boolean b,
+                        @QueryParam(value = "double") Double d) {
         int result;
         if (s != null && i != null) {
             result = partnerService.foo(s, i);
@@ -33,6 +34,8 @@ public class SampleResource {
             result = partnerService.foo(i);
         } else if (b != null) {
             result = partnerService.foo(b);
+        } else if (d != null) {
+            result = partnerService.foo(d);
         } else {
             result = partnerService.foo();
         }

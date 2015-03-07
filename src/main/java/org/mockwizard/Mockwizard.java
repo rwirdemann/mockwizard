@@ -45,6 +45,11 @@ public class Mockwizard {
         return this;
     }
 
+    public Mockwizard with(Double d) {
+        mocking.addParam(d);
+        return this;
+    }
+
     public Mockwizard with(Boolean b) {
         mocking.addParam(b);
         return this;

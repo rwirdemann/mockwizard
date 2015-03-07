@@ -55,6 +55,13 @@ public class SampleServiceTest {
     }
 
     @Test
+    public void mockWithDouble() throws Exception {
+        Mockwizard.when("gateway.foo").with(22.24).thenReturn(8);
+        assertEquals(8, sampleClient.foo(22.24));
+        assertEquals(0, sampleClient.foo(12.13));
+    }
+
+    @Test
     public void mockWithTwoParameter() throws Exception {
         Mockwizard.when("gateway.foo").with("hello").with(4).thenReturn(4);
         assertEquals(4, sampleClient.foo("hello", 4));
@@ -102,6 +109,12 @@ public class SampleServiceTest {
 
         public int foo(boolean b) {
             WebResource resource = client.resource(baseUri).path("samples/foo").queryParam("boolean", Boolean.toString(b));
+            ClientResponse clientResponse = resource.get(ClientResponse.class);
+            return clientResponse.getEntity(Integer.class);
+        }
+
+        public int foo(Double d) {
+            WebResource resource = client.resource(baseUri).path("samples/foo").queryParam("double", Double.toString(d));
             ClientResponse clientResponse = resource.get(ClientResponse.class);
             return clientResponse.getEntity(Integer.class);
         }

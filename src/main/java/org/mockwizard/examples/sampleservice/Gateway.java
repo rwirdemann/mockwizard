@@ -21,4 +21,8 @@ public class Gateway {
     public int foo(Boolean b) {
         return 0;
     }
+
+    public int foo(Double d) {
+        return 0;
+    }
 }
