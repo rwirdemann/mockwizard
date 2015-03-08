@@ -2,7 +2,8 @@ package org.mockwizard.examples.orderservice.clearingsystem;
 
 import org.mockwizard.examples.orderservice.Order;
 
-public interface ClearingService {
+public class ClearingService {
 
-    void clear(Order order);
+    public void clear(Order o) {
+    }
 }

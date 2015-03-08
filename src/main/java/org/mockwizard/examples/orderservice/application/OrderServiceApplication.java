@@ -7,6 +7,7 @@ import org.mockwizard.Mockwizard;
 import org.mockwizard.examples.DummyHealthCheck;
 import org.mockwizard.examples.orderservice.OrderRepository;
 import org.mockwizard.examples.orderservice.OrderResource;
+import org.mockwizard.examples.orderservice.clearingsystem.ClearingService;
 import org.mockwizard.examples.orderservice.quoteservice.QuoteService;
 
 public class OrderServiceApplication extends Application<OrderServiceConfiguration> {
@@ -19,8 +20,8 @@ public class OrderServiceApplication extends Application<OrderServiceConfigurati
     public void run(OrderServiceConfiguration configuration, Environment environment) throws Exception {
         Mockwizard.init(environment);
         environment.jersey().register(new OrderResource(new OrderRepository(),
-                configuration.quoteServiceFactory.quoteService(QuoteService.class),
-                configuration.clearingServiceFactory.clearingService(environment)));
+                configuration.quoteServiceFactory.service(QuoteService.class),
+                configuration.clearingServiceFactory.service(ClearingService.class)));
         environment.healthChecks().register("dummy_health_check", new DummyHealthCheck());
     }
 

@@ -78,9 +78,12 @@ public class OrderServiceTest {
         resource.type(MediaType.APPLICATION_JSON_TYPE).entity(o).post();
 
         // THEN: Order was cleared
-        WebResource clearingResource = client.resource(HOST).path("clearings");
-        Clearing clearings = clearingResource.path("TSLA").get(Clearing.class);
-        assertEquals(1, clearings.getCount());
+        Mockwizard.verify("clearingservice.clear");
+        
+//        // THEN: Order was cleared
+//        WebResource clearingResource = client.resource(HOST).path("clearings");
+//        Clearing clearings = clearingResource.path("TSLA").get(Clearing.class);
+//        assertEquals(1, clearings.getCount());
     }
 
     private static String resourceFilePath(String s) {

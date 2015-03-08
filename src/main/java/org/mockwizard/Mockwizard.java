@@ -13,11 +13,11 @@ import java.util.Map;
 public class Mockwizard {
     private static Map<String, Object> services = new HashMap<String, Object>();
     private final Client client = new Client();
-    private final Mocking mocking;
-    private static String baseURI;
+    private final MethodCall mocking;
+    public static String BASE_URI;
 
     public Mockwizard(String servicename, String methodname) {
-        mocking = new Mocking(servicename, methodname);
+        mocking = new MethodCall(servicename, methodname);
     }
 
     public static Mockwizard when(String methodCall) {
@@ -27,12 +27,18 @@ public class Mockwizard {
     }
 
     public <T> void thenReturn(T v) {
-        if (StringUtils.isBlank(baseURI)) {
+        if (StringUtils.isBlank(BASE_URI)) {
             throw new RuntimeException("Make sure to call Mockwizard.setup(int port) in your test class");
         }
-        WebResource provisionResource = client.resource(baseURI).path("mockings");
+        WebResource provisionResource = client.resource(BASE_URI).path("mockings");
         mocking.setReturnValue(v);
         provisionResource.type(MediaType.APPLICATION_JSON_TYPE).entity(mocking).post();
+    }
+
+    public static Verification verify(String methodCall) {
+        String servicename = methodCall.split("\\.")[0];
+        String methodname = methodCall.split("\\.")[1];
+        return new Verification(servicename, methodname);
     }
 
     public Mockwizard with(String s) {
@@ -58,6 +64,8 @@ public class Mockwizard {
     public static void init(Environment environment) {
         MockingResource mockingResource = new MockingResource();
         environment.jersey().register(mockingResource);
+        VerificationResource verificationResource = new VerificationResource();
+        environment.jersey().register(verificationResource);
     }
 
     public static <T> T mock(Class<T> aClass) {
@@ -71,6 +79,7 @@ public class Mockwizard {
     }
 
     public static void setup(int port) {
-        baseURI = "http://localhost:" + port;
+        BASE_URI = "http://localhost:" + port;
     }
+
 }

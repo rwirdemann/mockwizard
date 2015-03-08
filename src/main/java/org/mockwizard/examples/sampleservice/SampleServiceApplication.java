@@ -15,7 +15,7 @@ public class SampleServiceApplication extends Application<SampleServiceConfigura
     @Override
     public void run(SampleServiceConfiguration configuration, Environment environment) throws Exception {
         Mockwizard.init(environment);
-        environment.jersey().register(new SampleResource(configuration.gatewayFactory.quoteService(Gateway.class)));
+        environment.jersey().register(new SampleResource(configuration.gatewayFactory.service(Gateway.class)));
         environment.healthChecks().register("dummy_health_check", new DummyHealthCheck());
     }
 

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("UnusedDeclaration")
-public class Mocking<T> {
+public class MethodCall<T> {
 
     @JsonProperty
     private String servicename;
@@ -19,10 +19,10 @@ public class Mocking<T> {
 
     private T returnValue;
 
-    public Mocking() {
+    public MethodCall() {
     }
 
-    public Mocking(String servicename, String methodname) {
+    public MethodCall(String servicename, String methodname) {
         this.servicename = servicename;
         this.methodname = methodname;
     }

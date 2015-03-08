@@ -11,7 +11,7 @@ import java.util.List;
 public class MockingResource {
 
     @POST
-    public void create(Mocking mocking) throws Exception {
+    public void create(MethodCall mocking) throws Exception {
         Object mock = Mockwizard.get(mocking.getServicename());
 
         List<Param> params = mocking.getParams();

@@ -12,7 +12,7 @@ public class CollaboratorFactory<T> {
     @NotEmpty
     private ServiceType type;
 
-    public <T> T quoteService(Class<T> tClass) throws IllegalAccessException, InstantiationException {
+    public <T> T service(Class<T> tClass) throws IllegalAccessException, InstantiationException {
         switch (type) {
             case MOCK:
                 return Mockwizard.mock(tClass);
