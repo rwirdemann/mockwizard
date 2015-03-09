@@ -25,4 +25,8 @@ public class Gateway {
     public int foo(Double d) {
         return 0;
     }
+
+    public int foo(SampleObject sampleObject) {
+        return 0;
+    }
 }

@@ -20,7 +20,11 @@ public class MockingResource {
         for (int i = 0; i < params.size(); i++) {
             Param param = params.get(i);
             parameterTypes[i] = param.getaClass();
-            args[i] = param.getValue();
+            if (param.getValue() == null) {
+                args[i] = Mockito.any(param.getaClass());
+            } else {
+                args[i] = param.getValue();
+            }
         }
 
         Method method = mock.getClass().getMethod(mocking.getMethodname(), parameterTypes);

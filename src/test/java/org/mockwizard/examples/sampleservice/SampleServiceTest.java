@@ -37,7 +37,7 @@ public class SampleServiceTest {
     public void mockWithString() throws Exception {
         Mockwizard.when("gateway.foo").with("hello").thenReturn(2);
         Mockwizard.when("gateway.foo").with("hallo").thenReturn(3);
-        
+
         assertEquals(2, sampleClient.foo("hello"));
         assertEquals(3, sampleClient.foo("hallo"));
     }
@@ -59,6 +59,12 @@ public class SampleServiceTest {
         Mockwizard.when("gateway.foo").with(22.24).thenReturn(8);
         assertEquals(8, sampleClient.foo(22.24));
         assertEquals(0, sampleClient.foo(12.13));
+    }
+
+    @Test
+    public void mockWithAnyObject() throws Exception {
+        Mockwizard.when("gateway.foo").with(SampleObject.class).thenReturn(9);
+        assertEquals(9, sampleClient.fooWithAnyObject());
     }
 
     @Test
@@ -115,6 +121,12 @@ public class SampleServiceTest {
 
         public int foo(Double d) {
             WebResource resource = client.resource(baseUri).path("samples/foo").queryParam("double", Double.toString(d));
+            ClientResponse clientResponse = resource.get(ClientResponse.class);
+            return clientResponse.getEntity(Integer.class);
+        }
+
+        public int fooWithAnyObject() {
+            WebResource resource = client.resource(baseUri).path("samples/fooWithAnyObject");
             ClientResponse clientResponse = resource.get(ClientResponse.class);
             return clientResponse.getEntity(Integer.class);
         }

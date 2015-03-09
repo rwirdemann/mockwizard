@@ -55,6 +55,10 @@ public class MethodCall<T> {
         params.add(new Param(Double.class, d));
     }
 
+    public void addParam(Class c) {
+        params.add(new Param(c, null));
+    }
+
     public void setReturnValue(T returnValue) {
         this.returnValue = returnValue;
     }

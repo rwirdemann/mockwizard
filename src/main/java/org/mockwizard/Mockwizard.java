@@ -61,6 +61,11 @@ public class Mockwizard {
         return this;
     }
 
+    public Mockwizard with(Class c) {
+        mocking.addParam(c);
+        return this;
+    }
+
     public static void init(Environment environment) {
         MockingResource mockingResource = new MockingResource();
         environment.jersey().register(mockingResource);
