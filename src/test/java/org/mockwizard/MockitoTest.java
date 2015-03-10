@@ -1,7 +1,6 @@
 package org.mockwizard;
 
 import org.junit.Test;
-import org.mockito.MockingDetails;
 import org.mockito.Mockito;
 import org.mockwizard.examples.orderservice.Order;
 import org.mockwizard.examples.orderservice.clearingsystem.ClearingService;
@@ -30,5 +29,13 @@ public class MockitoTest {
         Method method = service.getClass().getMethod("clear", parameterTypes);
         ClearingService verify = Mockito.verify(service);
         method.invoke(verify, args);
+    }
+
+    @Test
+    public void testEnhancer() throws Exception {
+        ClearingService mock = Mockwizard.mock(ClearingService.class);
+        mock.clear(new Order());
+        mock.clear(new Order());
+        Mockwizard.verifyLocal("clearingservice.clear");
     }
 }

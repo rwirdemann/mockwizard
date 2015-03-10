@@ -5,5 +5,6 @@ import org.mockwizard.examples.orderservice.Order;
 public class ClearingService {
 
     public void clear(Order o) {
+        System.out.println("clear");
     }
 }

@@ -2,9 +2,6 @@ package org.mockwizard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.mockito.Mockito;
-import org.mockwizard.Mockwizard;
-import org.mockwizard.ServiceType;
 
 public class CollaboratorFactory<T> {
 
@@ -15,7 +12,7 @@ public class CollaboratorFactory<T> {
     public <T> T service(Class<T> tClass) throws IllegalAccessException, InstantiationException {
         switch (type) {
             case MOCK:
-                return Mockwizard.mock(tClass);
+                return Mockwizard.stub(tClass);
             case REAL:
                 return tClass.newInstance();
         }

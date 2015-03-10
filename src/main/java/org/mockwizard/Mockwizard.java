@@ -5,8 +5,12 @@ import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.setup.Environment;
 import org.apache.commons.lang.StringUtils;
 import org.mockito.Mockito;
+import org.mockito.cglib.proxy.Enhancer;
+import org.mockito.cglib.proxy.MethodInterceptor;
+import org.mockito.cglib.proxy.MethodProxy;
 
 import javax.ws.rs.core.MediaType;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,7 +77,7 @@ public class Mockwizard {
         environment.jersey().register(verificationResource);
     }
 
-    public static <T> T mock(Class<T> aClass) {
+    public static <T> T stub(Class<T> aClass) {
         T mock = Mockito.mock(aClass);
         services.put(aClass.getSimpleName().toLowerCase(), mock);
         return mock;
@@ -87,4 +91,57 @@ public class Mockwizard {
         BASE_URI = "http://localhost:" + port;
     }
 
+    static class MockDetails {
+        private Map<String, Integer> invocations = new HashMap<String, Integer>();
+        Object mock;
+
+        public <T> MockDetails(T mock) {
+            this.mock = mock;
+        }
+
+        public void record(Method method) {
+            System.out.println("Recording method call: " + method.getName());
+            if (invocations.containsKey(method.getName())) {
+                invocations.put(method.getName(), invocations.get(method.getName()) + 1);
+            } else {
+                invocations.put(method.getName(), 1);
+            }
+        }
+
+        public void verify(String methodCall) {
+            if (invocations.containsKey(methodCall)) {
+                System.out.println("SUCCESS: method '" + methodCall + "' called " + invocations.get(methodCall) + " times");
+            } else {
+                System.out.println("FAILURE: method '" + methodCall + "' was not called");
+            }
+        }
+    }
+
+    private static Map<String, MockDetails> mocks = new HashMap<String, MockDetails>();
+
+    public static <T> T mock(Class<T> classToMock) {
+        Enhancer e = new Enhancer();
+        e.setClassLoader(Mockwizard.class.getClassLoader());
+        e.setSuperclass(classToMock);
+        e.setCallback(new MethodInterceptor() {
+            public Object intercept(Object obj, Method method, Object[] args,
+                                    MethodProxy proxy) throws Throwable {
+                String name = obj.getClass().getSimpleName().toLowerCase().split("\\$")[0];
+                MockDetails mockDetails = mocks.get(name);
+                mockDetails.record(method);
+                return proxy.invokeSuper(obj, args);
+            }
+        });
+        T mock = (T) e.create();
+        String name = mock.getClass().getSimpleName().toLowerCase().split("\\$")[0];
+        mocks.put(name, new MockDetails(mock));
+        return mock;
+    }
+
+    public static void verifyLocal(String methodCall) {
+        String servicename = methodCall.split("\\.")[0];
+        String methodname = methodCall.split("\\.")[1];
+        MockDetails mockDetails = mocks.get(servicename);
+        mockDetails.verify(methodname);
+    }
 }
