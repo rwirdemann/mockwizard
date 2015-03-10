@@ -4,10 +4,13 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.setup.Environment;
 import org.apache.commons.lang.StringUtils;
+import org.mockito.MockSettings;
 import org.mockito.Mockito;
 import org.mockito.cglib.proxy.Enhancer;
 import org.mockito.cglib.proxy.MethodInterceptor;
 import org.mockito.cglib.proxy.MethodProxy;
+import org.mockito.listeners.InvocationListener;
+import org.mockito.listeners.MethodInvocationReport;
 
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Method;
@@ -77,10 +80,22 @@ public class Mockwizard {
         environment.jersey().register(verificationResource);
     }
 
-    public static <T> T stub(Class<T> aClass) {
-        T mock = Mockito.mock(aClass);
+    public static <T> T mock(Class<T> aClass) {
+        T mock = Mockito.mock(aClass, getMockSettings());
         services.put(aClass.getSimpleName().toLowerCase(), mock);
         return mock;
+    }
+
+    private static MockSettings getMockSettings() {
+        MockSettings mockSettings = Mockito.withSettings();
+        InvocationListener listener = new InvocationListener() {
+            @Override
+            public void reportInvocation(MethodInvocationReport methodInvocationReport) {
+                System.out.println("methodInvocationReport = " + methodInvocationReport.getInvocation());
+            }
+        };
+        mockSettings.invocationListeners(listener);
+        return mockSettings;
     }
 
     public static Object get(String servicename) {
@@ -118,25 +133,6 @@ public class Mockwizard {
     }
 
     private static Map<String, MockDetails> mocks = new HashMap<String, MockDetails>();
-
-    public static <T> T mock(Class<T> classToMock) {
-        Enhancer e = new Enhancer();
-        e.setClassLoader(Mockwizard.class.getClassLoader());
-        e.setSuperclass(classToMock);
-        e.setCallback(new MethodInterceptor() {
-            public Object intercept(Object obj, Method method, Object[] args,
-                                    MethodProxy proxy) throws Throwable {
-                String name = obj.getClass().getSimpleName().toLowerCase().split("\\$")[0];
-                MockDetails mockDetails = mocks.get(name);
-                mockDetails.record(method);
-                return proxy.invokeSuper(obj, args);
-            }
-        });
-        T mock = (T) e.create();
-        String name = mock.getClass().getSimpleName().toLowerCase().split("\\$")[0];
-        mocks.put(name, new MockDetails(mock));
-        return mock;
-    }
 
     public static void verifyLocal(String methodCall) {
         String servicename = methodCall.split("\\.")[0];

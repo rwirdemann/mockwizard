@@ -12,7 +12,7 @@ public class CollaboratorFactory<T> {
     public <T> T service(Class<T> tClass) throws IllegalAccessException, InstantiationException {
         switch (type) {
             case MOCK:
-                return Mockwizard.stub(tClass);
+                return Mockwizard.mock(tClass);
             case REAL:
                 return tClass.newInstance();
         }
