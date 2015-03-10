@@ -1,8 +1,13 @@
 package org.mockwizard;
 
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockSettings;
 import org.mockito.Mockito;
+import org.mockito.listeners.InvocationListener;
+import org.mockito.listeners.MethodInvocationReport;
 import org.mockwizard.examples.orderservice.Order;
+import org.mockwizard.examples.orderservice.clearingsystem.Clearing;
 import org.mockwizard.examples.orderservice.clearingsystem.ClearingService;
 
 import java.lang.reflect.Method;
@@ -11,9 +16,28 @@ import java.util.List;
 public class MockitoTest {
 
     @Test
+    public void testMock() throws Exception {
+        ClearingService mock = Mockito.mock(ClearingService.class, getMockSettings());
+        Mockito.when(mock.clear(Mockito.any(Order.class))).thenReturn(true);
+        mock.clear(new Order());
+    }
+
+    private MockSettings getMockSettings() {
+        MockSettings mockSettings = Mockito.withSettings();
+        InvocationListener listener = new InvocationListener() {
+            @Override
+            public void reportInvocation(MethodInvocationReport methodInvocationReport) {
+                System.out.println("methodInvocationReport = " + methodInvocationReport.getInvocation());
+            }
+        };
+        mockSettings.invocationListeners(listener);
+        return mockSettings;
+    }
+
+    @Test
     public void testVerify() throws Exception {
 
-        List l = Mockito.mock(List.class);
+        List l = Mockito.mock(List.class, getMockSettings());
         l.add("Hallo");
         Mockito.verify(l).add("Hallo");
 
