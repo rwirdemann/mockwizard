@@ -11,9 +11,7 @@ public class MockwizardTest {
     @Test
     public void testStubbing() throws Exception {
         ClearingService mock = Mockwizard.mock(ClearingService.class);
-
         Mockwizard.stub(MethodCall.service("clearingservice").method("clear").param(Order.class).returnValue(true));
-
         Assert.assertTrue(mock.clear(new Order()));
     }
 

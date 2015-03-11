@@ -9,6 +9,8 @@ Test ---HTTP--> Microservice --> Gateway ---HTTP--> PartnerService
 
 Challenge: Mock the Gateway which is executed within a different process than the blackbox test. This is how Mockwizard adresses this challenge.
 
+![Alt text](https://cloud.githubusercontent.com/assets/28768/6595658/ae2b83b2-c7ec-11e4-9681-66dfef4995c8.png)
+
 ##### 1. Add a CollaboratorFactory to your service configuration class
 ```
 public class SampleServiceConfiguration extends Configuration {
