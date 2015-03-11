@@ -9,15 +9,11 @@ import org.mockwizard.examples.orderservice.clearingsystem.ClearingService;
 public class MockwizardTest {
 
     @Test
-    public void testMock() throws Exception {
+    public void testStubbing() throws Exception {
         ClearingService mock = Mockwizard.mock(ClearingService.class);
-        
-        MethodCall mocking = new MethodCall("clearingservice", "clear");
-        mocking.addParam(Order.class);
-        mocking.setReturnValue(true);
-        Mockwizard.stub(mocking);
-        
-        //Mockito.when(mock.clear(Mockito.any(Order.class))).thenReturn(true);
+
+        Mockwizard.stub(MethodCall.service("clearingservice").method("clear").param(Order.class).returnValue(true));
+
         Assert.assertTrue(mock.clear(new Order()));
     }
 

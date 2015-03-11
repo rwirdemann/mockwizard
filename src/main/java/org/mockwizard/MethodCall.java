@@ -22,9 +22,32 @@ public class MethodCall<T> {
     public MethodCall() {
     }
 
+    public MethodCall(String servicename) {
+        this.servicename = servicename;
+    }
+
     public MethodCall(String servicename, String methodname) {
         this.servicename = servicename;
         this.methodname = methodname;
+    }
+
+    public static MethodCall service(String servicename) {
+        return new MethodCall(servicename);
+    }
+    
+    public MethodCall method(String methodname) {
+        this.methodname = methodname;
+        return this;
+    }
+    
+    public MethodCall param(Class c) {
+        addParam(c);
+        return this;
+    }
+    
+    public MethodCall returnValue(T returnValue) {
+        setReturnValue(returnValue);
+        return this;
     }
 
     public String getServicename() {
