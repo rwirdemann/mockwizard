@@ -17,11 +17,13 @@ public class VerificationResource {
         args[0] = new Order();
         parameterTypes[0] = args[0].getClass();
 
+        
+        Mockwizard.verifyLocal(methodCall.getServicename() + "." + methodCall.getMethodname());
 
         //Mockito.verify(service).clear(Mockito.any(Order.class));
 
-        Object mock = Mockwizard.get(methodCall.getServicename());
-        Method method = mock.getClass().getMethod(methodCall.getMethodname(), parameterTypes);
-        method.invoke(Mockito.verify(mock), args);
+//        Object mock = Mockwizard.get(methodCall.getServicename());
+//        Method method = mock.getClass().getMethod(methodCall.getMethodname(), parameterTypes);
+//        method.invoke(Mockito.verify(mock), args);
     }
 }

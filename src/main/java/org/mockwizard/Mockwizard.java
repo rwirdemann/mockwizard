@@ -6,19 +6,16 @@ import io.dropwizard.setup.Environment;
 import org.apache.commons.lang.StringUtils;
 import org.mockito.MockSettings;
 import org.mockito.Mockito;
-import org.mockito.cglib.proxy.Enhancer;
-import org.mockito.cglib.proxy.MethodInterceptor;
-import org.mockito.cglib.proxy.MethodProxy;
 import org.mockito.listeners.InvocationListener;
-import org.mockito.listeners.MethodInvocationReport;
 
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Mockwizard {
-    private static Map<String, Object> services = new HashMap<String, Object>();
+    private static Map<String, MockDetails> services = new HashMap<String, MockDetails>();
     private final Client client = new Client();
     private final MethodCall mocking;
     public static String BASE_URI;
@@ -46,6 +43,14 @@ public class Mockwizard {
         String servicename = methodCall.split("\\.")[0];
         String methodname = methodCall.split("\\.")[1];
         return new Verification(servicename, methodname);
+    }
+
+    public static void verifyLocal(String methodCall) {
+        String servicename = methodCall.split("\\.")[0];
+        String methodname = methodCall.split("\\.")[1];
+
+        MockDetails mockDetails = Mockwizard.get(servicename);
+        mockDetails.verify(methodname);
     }
 
     public Mockwizard with(String s) {
@@ -81,24 +86,45 @@ public class Mockwizard {
     }
 
     public static <T> T mock(Class<T> aClass) {
-        T mock = Mockito.mock(aClass, getMockSettings());
-        services.put(aClass.getSimpleName().toLowerCase(), mock);
+        MockDetails mockDetails = new MockDetails();
+        T mock = Mockito.mock(aClass, getMockSettings(mockDetails));
+        mockDetails.setMock(mock);
+        services.put(aClass.getSimpleName().toLowerCase(), mockDetails);
         return mock;
     }
 
-    private static MockSettings getMockSettings() {
-        MockSettings mockSettings = Mockito.withSettings();
-        InvocationListener listener = new InvocationListener() {
-            @Override
-            public void reportInvocation(MethodInvocationReport methodInvocationReport) {
-                System.out.println("methodInvocationReport = " + methodInvocationReport.getInvocation());
+    public static void stub(MethodCall mocking) throws Exception {
+        MockDetails mockDetails = Mockwizard.get(mocking.getServicename());
+        Object mock = mockDetails.getMock();
+
+        List<Param> params = mocking.getParams();
+        Class[] parameterTypes = new Class[params.size()];
+        Object[] args = new Object[params.size()];
+        for (int i = 0; i < params.size(); i++) {
+            Param param = params.get(i);
+            parameterTypes[i] = param.getaClass();
+            if (param.getValue() == null) {
+                args[i] = Mockito.any(param.getaClass());
+            } else {
+                args[i] = param.getValue();
             }
-        };
+        }
+
+        Method method = mock.getClass().getMethod(mocking.getMethodname(), parameterTypes);
+        Object methodCall = method.invoke(mock, args);
+        Mockito.when(methodCall).thenReturn(mocking.getReturnValue());
+
+        mockDetails.setStubbed(mocking.getMethodname());
+    }
+
+    private static MockSettings getMockSettings(MockDetails mockDetails) {
+        MockSettings mockSettings = Mockito.withSettings();
+        InvocationListener listener = new MethodInvocationRecorder(mockDetails);
         mockSettings.invocationListeners(listener);
         return mockSettings;
     }
 
-    public static Object get(String servicename) {
+    public static MockDetails get(String servicename) {
         return services.get(servicename);
     }
 
@@ -106,38 +132,5 @@ public class Mockwizard {
         BASE_URI = "http://localhost:" + port;
     }
 
-    static class MockDetails {
-        private Map<String, Integer> invocations = new HashMap<String, Integer>();
-        Object mock;
 
-        public <T> MockDetails(T mock) {
-            this.mock = mock;
-        }
-
-        public void record(Method method) {
-            System.out.println("Recording method call: " + method.getName());
-            if (invocations.containsKey(method.getName())) {
-                invocations.put(method.getName(), invocations.get(method.getName()) + 1);
-            } else {
-                invocations.put(method.getName(), 1);
-            }
-        }
-
-        public void verify(String methodCall) {
-            if (invocations.containsKey(methodCall)) {
-                System.out.println("SUCCESS: method '" + methodCall + "' called " + invocations.get(methodCall) + " times");
-            } else {
-                System.out.println("FAILURE: method '" + methodCall + "' was not called");
-            }
-        }
-    }
-
-    private static Map<String, MockDetails> mocks = new HashMap<String, MockDetails>();
-
-    public static void verifyLocal(String methodCall) {
-        String servicename = methodCall.split("\\.")[0];
-        String methodname = methodCall.split("\\.")[1];
-        MockDetails mockDetails = mocks.get(servicename);
-        mockDetails.verify(methodname);
-    }
 }

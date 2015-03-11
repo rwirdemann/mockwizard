@@ -51,15 +51,5 @@ public class Order {
     public double getLimit() {
         return limit;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return 1;
-    }
 }
 
