@@ -1,8 +1,6 @@
 package org.mockwizard.examples.orderservice;
 
 import com.google.common.io.Resources;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -11,9 +9,7 @@ import org.junit.Test;
 import org.mockwizard.Mockwizard;
 import org.mockwizard.examples.orderservice.application.OrderServiceApplication;
 import org.mockwizard.examples.orderservice.application.OrderServiceConfiguration;
-import org.mockwizard.examples.orderservice.clearingsystem.Clearing;
 
-import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.util.List;
 
@@ -21,12 +17,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class OrderServiceTest {
-    public static final String HOST = "http://localhost:9050";
-    private Client client;
 
     @ClassRule
     public static final DropwizardAppRule<OrderServiceConfiguration> RULE =
             new DropwizardAppRule<OrderServiceConfiguration>(OrderServiceApplication.class, resourceFilePath("configuration.yml"));
+    private OrderServiceClient orderServiceClient;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -35,19 +30,17 @@ public class OrderServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        client = new Client();
-        client.resource(HOST).path("orders").delete();
+        orderServiceClient = new OrderServiceClient(RULE.getLocalPort());
+        orderServiceClient.delete();
     }
 
     @Test
     public void shouldGetOrders() throws Exception {
         // GIVEN
-        WebResource resource = client.resource(HOST).path("orders");
-        Order o = new Order("TSLA", 5, 200.0);
-        resource.type(MediaType.APPLICATION_JSON_TYPE).entity(o).post();
+        orderServiceClient.create(new Order("TSLA", 5, 200.0));
 
         // WHEN
-        List<Order> orders = resource.get(List.class);
+        List<Order> orders = orderServiceClient.all();
 
         // THEN
         assertEquals(1, orders.size());
@@ -55,35 +48,24 @@ public class OrderServiceTest {
 
     @Test
     public void shouldDenyOrder() throws Exception {
-
         // GIVEN: Limit exceeding order price
         Mockwizard.when("quoteservice.getPrice").with("TSLA").thenReturn(210.0);
 
         // WHEN: Order requested
-        WebResource resource = client.resource(HOST).path("orders");
-        Order o = new Order("TSLA", 5, 200.0);
-        resource.type(MediaType.APPLICATION_JSON_TYPE).entity(o).post();
+        orderServiceClient.create(new Order("TSLA", 5, 200.0));
 
         // THEN: Order was denied
-        List<Order> orders = resource.get(List.class);
+        List<Order> orders = orderServiceClient.all();
         assertTrue(orders.isEmpty());
     }
 
     @Test
     public void shouldClearOrder() throws Exception {
-
         // WHEN: Order requested
-        WebResource resource = client.resource(HOST).path("orders");
-        Order o = new Order("TSLA", 5, 200.0);
-        resource.type(MediaType.APPLICATION_JSON_TYPE).entity(o).post();
+        orderServiceClient.create(new Order("TSLA", 5, 200.0));
 
         // THEN: Order was cleared
         Mockwizard.verify("clearingservice.clear");
-        
-//        // THEN: Order was cleared
-//        WebResource clearingResource = client.resource(HOST).path("clearings");
-//        Clearing clearings = clearingResource.path("TSLA").get(Clearing.class);
-//        assertEquals(1, clearings.getCount());
     }
 
     private static String resourceFilePath(String s) {
