@@ -29,6 +29,12 @@ public class OrderResource {
         return orderRepository.find();
     }
 
+    @GET
+    @Path("{orderId}")
+    public Order get(@PathParam("orderId") String orderId) {
+        return orderRepository.find(orderId);
+    }
+
     @POST
     public Response create(Order o) {
         double price = quoteService.getPrice(o.getSymbol());

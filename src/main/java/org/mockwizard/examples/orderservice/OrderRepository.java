@@ -17,4 +17,8 @@ public class OrderRepository {
         order.set_id(UUID.randomUUID().toString());
         orders.put(order.get_id(), order);
     }
+
+    public Order find(String orderId) {
+        return orders.get(orderId);
+    }
 }
