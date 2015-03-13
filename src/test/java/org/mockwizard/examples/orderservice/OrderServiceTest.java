@@ -35,25 +35,13 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void shouldGetOrders() throws Exception {
-        // GIVEN
-        orderServiceClient.create(new Order("TSLA", 5, 200.0));
-
-        // WHEN
-        List<Order> orders = orderServiceClient.all();
-
-        // THEN
-        assertEquals(1, orders.size());
-    }
-
-    @Test
     public void shouldUpdateBuyPrice() throws Exception {
         // GIVEN: An actual quote for TSLA
         Mockwizard.when("quoteservice.getPrice").with("TSLA").thenReturn(199.0);
 
         // WHEN: Order created
         String orderId = orderServiceClient.create(new Order("TSLA", 5, 200.0));
-        
+
         // THEN: The order was bought for the quote of TSLA
         Order o = orderServiceClient.get(orderId);
         assertEquals(199.0, o.getPrice(), 0.000001);
