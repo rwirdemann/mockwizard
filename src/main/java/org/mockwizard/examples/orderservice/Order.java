@@ -22,10 +22,14 @@ public class Order {
     public Order() {
     }
 
-    public Order(String symbol, int count, double limit) {
+    public Order(String symbol, int count) {
         this.symbol = symbol;
         this.count = count;
+    }
+    
+    public Order withLimit(double limit) {
         this.limit = limit;
+        return this;
     }
 
     public String get_id() {

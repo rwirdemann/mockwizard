@@ -25,8 +25,11 @@ public class OrderServiceClient {
     public String create(Order o) {
         WebResource resource = client.resource(baseUri).path("orders");
         ClientResponse response = resource.type(MediaType.APPLICATION_JSON_TYPE).entity(o).post(ClientResponse.class);
-        String uri = response.getLocation().toString();
-        return StringUtils.substringAfterLast(uri, "/");
+        if (response.getLocation() != null) {
+            String uri = response.getLocation().toString();
+            return StringUtils.substringAfterLast(uri, "/");
+        } 
+        return null;
     }
 
     public Order get(String orderId) {

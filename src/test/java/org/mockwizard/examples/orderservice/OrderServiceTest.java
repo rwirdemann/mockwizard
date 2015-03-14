@@ -40,7 +40,7 @@ public class OrderServiceTest {
         Mockwizard.when("quoteservice.getPrice").with("TSLA").thenReturn(199.0);
 
         // WHEN: Order created
-        String orderId = orderServiceClient.create(new Order("TSLA", 5, 200.0));
+        String orderId = orderServiceClient.create(new Order("TSLA", 5).withLimit(200.0));
 
         // THEN: The order was bought for the quote of TSLA
         Order o = orderServiceClient.get(orderId);
@@ -53,7 +53,7 @@ public class OrderServiceTest {
         Mockwizard.when("quoteservice.getPrice").with("TSLA").thenReturn(210.0);
 
         // WHEN: Order requested
-        orderServiceClient.create(new Order("TSLA", 5, 200.0));
+        orderServiceClient.create(new Order("TSLA", 5).withLimit(200.0));
 
         // THEN: Order was denied
         List<Order> orders = orderServiceClient.all();
@@ -62,8 +62,11 @@ public class OrderServiceTest {
 
     @Test
     public void shouldClearOrder() throws Exception {
+        // GIVEN: Limit exceeding order price
+
+        Mockwizard.when("quoteservice.getPrice").with("TSLA").thenReturn(210.0);
         // WHEN: Order requested
-        orderServiceClient.create(new Order("TSLA", 5, 200.0));
+        orderServiceClient.create(new Order("TSLA", 5).withLimit(211.0));
 
         // THEN: Order was cleared
         Mockwizard.verify("clearingservice.clear");

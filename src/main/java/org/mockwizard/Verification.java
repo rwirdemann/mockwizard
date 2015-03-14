@@ -6,11 +6,15 @@ import com.sun.jersey.api.client.WebResource;
 import javax.ws.rs.core.MediaType;
 
 public class Verification {
-    private final Client client = new Client();
-    public Verification(String servicename, String methodname) {
-        MethodCall methodCall = new MethodCall(servicename, methodname);
+    private final MethodCall methodCall;
 
-        WebResource provisionResource = client.resource(Mockwizard.BASE_URI).path("verifications");
+    public Verification(String servicename, String methodname) {
+        methodCall = new MethodCall(servicename, methodname);
+    }
+    
+    public void request() {
+        Client client = new Client();
+        WebResource provisionResource = client.resource(Mockwizard.baseUri).path("verifications");
         provisionResource.type(MediaType.APPLICATION_JSON_TYPE).entity(methodCall).post();
     }
 }

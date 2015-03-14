@@ -1,14 +1,11 @@
 package org.mockwizard;
 
 import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
 import io.dropwizard.setup.Environment;
-import org.apache.commons.lang.StringUtils;
 import org.mockito.MockSettings;
 import org.mockito.Mockito;
 import org.mockito.listeners.InvocationListener;
 
-import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
@@ -17,32 +14,39 @@ import java.util.Map;
 public class Mockwizard {
     private static Map<String, MockDetails> services = new HashMap<String, MockDetails>();
     private final Client client = new Client();
-    private final MethodCall mocking;
-    public static String BASE_URI;
+    public static String baseUri;
 
-    public Mockwizard(String servicename, String methodname) {
-        mocking = new MethodCall(servicename, methodname);
+    /**
+     * Needs to be called ones from each test class in order to specifiy the
+     * port of the test service instance.
+     *
+     * @param port the port of the test service instance.
+     */
+    public static void setup(int port) {
+        baseUri = "http://localhost:" + port;
     }
 
-    public static Mockwizard when(String methodCall) {
+    /**
+     * Starts stubbing for the given methodCall which has to be of the format
+     * 'objectname.methodname'.
+     *
+     * @param methodCall method call to be stubbed
+     * @return stubbing object
+     */
+    public static Stubbing when(String methodCall) {
+        return new Stubbing(methodCall);
+    }
+
+    /**
+     * Starts verification for the given methodCall which has to be of the 
+     * format 'objectname.methodname'.
+     *
+     * @param methodCall method call to be verified
+     */
+    public static void verify(String methodCall) {
         String servicename = methodCall.split("\\.")[0];
         String methodname = methodCall.split("\\.")[1];
-        return new Mockwizard(servicename, methodname);
-    }
-
-    public <T> void thenReturn(T v) {
-        if (StringUtils.isBlank(BASE_URI)) {
-            throw new RuntimeException("Make sure to call Mockwizard.setup(int port) in your test class");
-        }
-        WebResource provisionResource = client.resource(BASE_URI).path("mockings");
-        mocking.setReturnValue(v);
-        provisionResource.type(MediaType.APPLICATION_JSON_TYPE).entity(mocking).post();
-    }
-
-    public static Verification verify(String methodCall) {
-        String servicename = methodCall.split("\\.")[0];
-        String methodname = methodCall.split("\\.")[1];
-        return new Verification(servicename, methodname);
+        new Verification(servicename, methodname).request();
     }
 
     public static void verifyLocal(String methodCall) {
@@ -51,31 +55,6 @@ public class Mockwizard {
 
         MockDetails mockDetails = Mockwizard.get(servicename);
         mockDetails.verify(methodname);
-    }
-
-    public Mockwizard with(String s) {
-        mocking.addParam(s);
-        return this;
-    }
-
-    public Mockwizard with(Integer i) {
-        mocking.addParam(i);
-        return this;
-    }
-
-    public Mockwizard with(Double d) {
-        mocking.addParam(d);
-        return this;
-    }
-
-    public Mockwizard with(Boolean b) {
-        mocking.addParam(b);
-        return this;
-    }
-
-    public Mockwizard with(Class c) {
-        mocking.addParam(c);
-        return this;
     }
 
     public static void init(Environment environment) {
@@ -126,10 +105,6 @@ public class Mockwizard {
 
     public static MockDetails get(String servicename) {
         return services.get(servicename);
-    }
-
-    public static void setup(int port) {
-        BASE_URI = "http://localhost:" + port;
     }
 
 
