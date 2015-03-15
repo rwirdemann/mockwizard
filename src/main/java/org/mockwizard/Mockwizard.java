@@ -1,6 +1,5 @@
 package org.mockwizard;
 
-import com.sun.jersey.api.client.Client;
 import io.dropwizard.setup.Environment;
 import org.mockito.MockSettings;
 import org.mockito.Mockito;
@@ -13,10 +12,11 @@ import java.util.Map;
 
 public class Mockwizard {
     private static Map<String, MockDetails> services = new HashMap<String, MockDetails>();
-    private final Client client = new Client();
     public static String baseUri;
 
     /**
+     * Client site setup method.
+     *
      * Needs to be called ones from each test class in order to specifiy the
      * port of the test service instance.
      *
@@ -24,6 +24,20 @@ public class Mockwizard {
      */
     public static void setup(int port) {
         baseUri = "http://localhost:" + port;
+    }
+
+    /**
+     * Server side setup method. 
+     * 
+     * Needs to be called in the <code>run</code> method of your application
+     * class.
+     * @param environment the application's {@link Environment}
+     */
+    public static void init(Environment environment) {
+        MockingResource mockingResource = new MockingResource();
+        environment.jersey().register(mockingResource);
+        VerificationResource verificationResource = new VerificationResource();
+        environment.jersey().register(verificationResource);
     }
 
     /**
@@ -38,7 +52,7 @@ public class Mockwizard {
     }
 
     /**
-     * Starts verification for the given methodCall which has to be of the 
+     * Starts verification for the given methodCall which has to be of the
      * format 'objectname.methodname'.
      *
      * @param methodCall method call to be verified
@@ -55,13 +69,6 @@ public class Mockwizard {
 
         MockDetails mockDetails = Mockwizard.get(servicename);
         mockDetails.verify(methodname);
-    }
-
-    public static void init(Environment environment) {
-        MockingResource mockingResource = new MockingResource();
-        environment.jersey().register(mockingResource);
-        VerificationResource verificationResource = new VerificationResource();
-        environment.jersey().register(verificationResource);
     }
 
     public static <T> T mock(Class<T> aClass) {
