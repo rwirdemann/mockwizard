@@ -10,13 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Mockwizard library is highly inspired by Mockito. It adapts the Mockito
+ * ideas from the client to the server by allowing server side mock creation,
+ * verification and stubbing.
+ */
 public class Mockwizard {
-    private static Map<String, MockDetails> services = new HashMap<String, MockDetails>();
+    private static Map<String, MockDetails> mocks = new HashMap<String, MockDetails>();
     public static String baseUri;
 
     /**
      * Client site setup method.
-     *
+     * <p/>
      * Needs to be called ones from each test class in order to specifiy the
      * port of the test service instance.
      *
@@ -27,10 +32,11 @@ public class Mockwizard {
     }
 
     /**
-     * Server side setup method. 
-     * 
+     * Server side setup method.
+     * <p/>
      * Needs to be called in the <code>run</code> method of your application
      * class.
+     *
      * @param environment the application's {@link Environment}
      */
     public static void init(Environment environment) {
@@ -63,19 +69,25 @@ public class Mockwizard {
         new Verification(servicename, methodname).request();
     }
 
-    public static <T> T mock(Class<T> aClass) {
+    /**
+     * Creates a mock.
+     *
+     * @param aClass the class of the mock
+     * @return the mock object
+     */
+    static <T> T mock(Class<T> aClass) {
         MockDetails mockDetails = new MockDetails();
         T mock = Mockito.mock(aClass, getMockSettings(mockDetails));
         mockDetails.setMock(mock);
-        services.put(aClass.getSimpleName().toLowerCase(), mockDetails);
+        mocks.put(aClass.getSimpleName().toLowerCase(), mockDetails);
         return mock;
     }
 
-    public static void stub(MethodCall mocking) throws Exception {
-        MockDetails mockDetails = Mockwizard.get(mocking.getServicename());
+    public static void stub(MethodCall methodCall1) throws Exception {
+        MockDetails mockDetails = Mockwizard.get(methodCall1.getServicename());
         Object mock = mockDetails.getMock();
 
-        List<Param> params = mocking.getParams();
+        List<Param> params = methodCall1.getParams();
         Class[] parameterTypes = new Class[params.size()];
         Object[] args = new Object[params.size()];
         for (int i = 0; i < params.size(); i++) {
@@ -88,11 +100,10 @@ public class Mockwizard {
             }
         }
 
-        Method method = mock.getClass().getMethod(mocking.getMethodname(), parameterTypes);
-        Object methodCall = method.invoke(mock, args);
-        Mockito.when(methodCall).thenReturn(mocking.getReturnValue());
+        Method method = mock.getClass().getMethod(methodCall1.getMethodname(), parameterTypes);
+        Mockito.when(method.invoke(mock, args)).thenReturn(methodCall1.getReturnValue());
 
-        mockDetails.setStubbed(mocking.getMethodname());
+        mockDetails.setStubbed(methodCall1.getMethodname());
     }
 
     private static MockSettings getMockSettings(MockDetails mockDetails) {
@@ -103,7 +114,7 @@ public class Mockwizard {
     }
 
     public static MockDetails get(String servicename) {
-        return services.get(servicename);
+        return mocks.get(servicename);
     }
 
 

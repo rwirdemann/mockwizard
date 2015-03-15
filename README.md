@@ -1,11 +1,14 @@
 # Mockwizard
 #### Testing Dropwizard-Microservices in Isolation
+Mockwizard library is highly inspired by Mockito. It adapts the Mockito ideas 
+from the client to the server by allowing server side mock creation, 
+verification and stubbing. Lets start with an example:
 
-An Order Service asks a Quote Service for real time quotes right before an order is placed. 
+An orderservice asks a quoteservice for real time quotes right before an order is placed. 
 
 ![Alt text](https://cloud.githubusercontent.com/assets/28768/6596319/5149bf2c-c7f3-11e4-9732-87355c5fa472.png)
 
-Like within traditional unit tests we want to test the Order Service (SUT = Service under Test) in isolation, i.e. without any dependencies on external systmes like a running Quote Service. Mockwizards enforces a blackbox testing approach: The tests acts as a normal client and accesses the microservice only via its HTTP interface. All external dependencies of the SUT are mocked by Mockwizard. Here is what you have to do:
+Like within traditional unit tests we want to test the orderservice (SUT = Service under Test) in isolation, i.e. without any dependencies on external systmes like a running quoteservice. Mockwizards enforces a blackbox testing approach: The tests acts as a normal client and accesses the microservice only via its HTTP interface. All external dependencies of the SUT are mocked by Mockwizard. Here is what you have to do:
 
 On the server:
 
@@ -82,7 +85,7 @@ Alternatively you can add Mockwizard to your project by downloading it from mave
     <dependency>
         <groupId>com.github.rwirdemann</groupId>
         <artifactId>mockwizard</artifactId>
-        <version>0.0.1</version>
+        <version>0.0.2</version>
     </dependency>
 </dependencies>
 

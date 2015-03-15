@@ -2,6 +2,7 @@ package org.mockwizard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.mockito.Mockito;
 
 public class CollaboratorFactory<T> {
 
