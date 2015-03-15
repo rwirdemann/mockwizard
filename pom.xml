@@ -5,7 +5,7 @@
 
     <groupId>com.github.rwirdemann</groupId>
     <artifactId>mockwizard</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>Mockwizard</name>
     <description>Testing Dropwizard Services in Isolation</description>
     <url>https://github.com/rwirdemann/mockwizard</url>
