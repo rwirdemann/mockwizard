@@ -63,14 +63,6 @@ public class Mockwizard {
         new Verification(servicename, methodname).request();
     }
 
-    public static void verifyLocal(String methodCall) {
-        String servicename = methodCall.split("\\.")[0];
-        String methodname = methodCall.split("\\.")[1];
-
-        MockDetails mockDetails = Mockwizard.get(servicename);
-        mockDetails.verify(methodname);
-    }
-
     public static <T> T mock(Class<T> aClass) {
         MockDetails mockDetails = new MockDetails();
         T mock = Mockito.mock(aClass, getMockSettings(mockDetails));
