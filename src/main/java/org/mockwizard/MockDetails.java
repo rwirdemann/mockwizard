@@ -44,10 +44,9 @@ public class MockDetails {
         }
     }
 
-    public void verify(String methodCall) {
+    public VerificationResult verify(String methodCall) {
         if (invocations.containsKey(methodCall)) {
             InvocationDetails invocationDetails = invocations.get(methodCall);
-            
             if (invocationDetails.isStubbed()) {
                 // der erste recordete aufruf stammt vom stubbing, zählt also nicht
                 if (invocationDetails.count > 1) {
@@ -63,8 +62,9 @@ public class MockDetails {
                 }
             }
         } else {
-            throw new RuntimeException("FAILURE: method '" + methodCall + "' was not called");
+            return new VerificationResult("Wanted but not invoked:", methodCall);
         }
+        return new VerificationResult("Wanted but not invoked:", methodCall);
     }
 
     public Object getMock() {
