@@ -66,7 +66,7 @@ public class Mockwizard {
     public static void verify(String methodCall) {
         String servicename = methodCall.split("\\.")[0];
         String methodname = methodCall.split("\\.")[1];
-        new Verification(servicename, methodname).request();
+        new VerificationRequest(servicename, methodname);
     }
 
     /**
