@@ -3,8 +3,16 @@ package org.mockwizard;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class MockDetailsTest {
+
+    @Test
+    public void shouldAssignUUID() throws Exception {
+        MockDetails mockDetails = new MockDetails();
+        VerificationResult result = mockDetails.verify("verifyme");
+        assertNotNull(result.getUuid());
+    }
 
     @Test
     public void testNonStubbedMethod() throws Exception {

@@ -2,6 +2,8 @@ package org.mockwizard;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.UUID;
+
 public class VerificationResult {
 
     @JsonProperty
@@ -16,6 +18,7 @@ public class VerificationResult {
     public VerificationResult(String message, String method) {
         this.message = message;
         this.method = method;
+        this.uuid = UUID.randomUUID().toString();
     }
 
     public String getUuid() {
