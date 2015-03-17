@@ -44,7 +44,7 @@ public class MockDetails {
         }
     }
 
-    public VerificationResult verify(String methodCall) {
+    public Verification verify(String methodCall) {
         if (invocations.containsKey(methodCall)) {
             InvocationDetails invocationDetails = invocations.get(methodCall);
             if (invocationDetails.isStubbed()) {
@@ -62,9 +62,9 @@ public class MockDetails {
                 }
             }
         } else {
-            return new VerificationResult("Wanted but not invoked:", methodCall);
+            return new Verification("Wanted but not invoked:", methodCall);
         }
-        return new VerificationResult("Wanted but not invoked:", methodCall);
+        return new Verification("Wanted but not invoked:", methodCall);
     }
 
     public Object getMock() {

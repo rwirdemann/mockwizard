@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class VerificationResult {
+public class Verification {
 
     @JsonProperty
     private String message;
@@ -15,7 +15,7 @@ public class VerificationResult {
     @JsonProperty
     private String method;
 
-    public VerificationResult(String message, String method) {
+    public Verification(String message, String method) {
         this.message = message;
         this.method = method;
         this.uuid = UUID.randomUUID().toString();

@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Path("/verifications")
 public class VerificationResource {
-    private Map<String, VerificationResult> verificationResults = new HashMap<String, VerificationResult>();
+    private Map<String, Verification> verificationResults = new HashMap<String, Verification>();
     
     @Context
     private UriInfo uriInfo;
@@ -22,7 +22,7 @@ public class VerificationResource {
     @POST
     public Response create(MethodCall methodCall) throws Exception {
         MockDetails mockDetails = Mockwizard.get(methodCall.getServicename());
-        VerificationResult result = mockDetails.verify(methodCall.getMethodname());
+        Verification result = mockDetails.verify(methodCall.getMethodname());
         verificationResults.put(result.getUuid(), result);
         UriBuilder ub = uriInfo.getAbsolutePathBuilder();
         URI resultURI = ub.path(String.valueOf(result.getUuid())).build();

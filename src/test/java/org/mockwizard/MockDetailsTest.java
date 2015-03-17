@@ -10,14 +10,14 @@ public class MockDetailsTest {
     @Test
     public void shouldAssignUUID() throws Exception {
         MockDetails mockDetails = new MockDetails();
-        VerificationResult result = mockDetails.verify("verifyme");
+        Verification result = mockDetails.verify("verifyme");
         assertNotNull(result.getUuid());
     }
 
     @Test
     public void testNonStubbedMethod() throws Exception {
         MockDetails mockDetails = new MockDetails();
-        VerificationResult result = mockDetails.verify("verifyme");
+        Verification result = mockDetails.verify("verifyme");
         assertEquals("Wanted but not invoked:", result.getMessage());
         assertEquals("verifyme", result.getMethod());
     }
