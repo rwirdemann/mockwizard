@@ -4,6 +4,7 @@ import io.dropwizard.setup.Environment;
 import org.mockito.MockSettings;
 import org.mockito.Mockito;
 import org.mockito.listeners.InvocationListener;
+import org.mockwizard.examples.VerificationException;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -62,11 +63,15 @@ public class Mockwizard {
      * format 'objectname.methodname'.
      *
      * @param methodCall method call to be verified
+     * @return result of the verfication
      */
     public static void verify(String methodCall) {
         String servicename = methodCall.split("\\.")[0];
         String methodname = methodCall.split("\\.")[1];
-        new VerificationRequest(servicename, methodname);
+        Verification verification = new VerificationRequest(servicename, methodname).submit();
+        if (verification.isFailed()) {
+            throw new VerificationException(verification);
+        }
     }
 
     /**

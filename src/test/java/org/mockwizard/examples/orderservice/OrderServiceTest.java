@@ -7,14 +7,14 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.mockwizard.Mockwizard;
+import org.mockwizard.examples.VerificationException;
 import org.mockwizard.examples.orderservice.application.OrderServiceApplication;
 import org.mockwizard.examples.orderservice.application.OrderServiceConfiguration;
 
 import java.io.File;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class OrderServiceTest {
 
@@ -63,13 +63,26 @@ public class OrderServiceTest {
     @Test
     public void shouldClearOrder() throws Exception {
         // GIVEN: Limit exceeding order price
-
         Mockwizard.when("quoteservice.getPrice").with("TSLA").thenReturn(210.0);
+
         // WHEN: Order requested
         orderServiceClient.create(new Order("TSLA", 5).withLimit(211.0));
 
         // THEN: Order was cleared
         Mockwizard.verify("clearingservice.clear");
+    }
+
+    /**
+     * Demonstrates a verification failure.
+     */
+    @Test
+    public void demonstrateFailedVerification() throws Exception {
+        try {
+            Mockwizard.verify("clearingservice.clear");
+            fail();
+        } catch (VerificationException e) {
+            assertEquals("Wanted but not invoked:\n  clear(...)", e.toString());
+        }
     }
 
     private static String resourceFilePath(String s) {
