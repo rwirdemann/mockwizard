@@ -22,6 +22,13 @@ public class Verification {
     public Verification() {
     }
 
+    public static Verification SUCCESS() {
+        Verification verification = new Verification();
+        verification.failed = false;
+        verification.uuid = UUID.randomUUID().toString();
+        return verification;
+    }
+
     public Verification(String message, String method) {
         this.failed = true;
         this.message = message;

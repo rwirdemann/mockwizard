@@ -32,6 +32,8 @@ public class OrderServiceTest {
     public void setUp() throws Exception {
         orderServiceClient = new OrderServiceClient(RULE.getLocalPort());
         orderServiceClient.delete();
+
+        Mockwizard.reset();
     }
 
     @Test

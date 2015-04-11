@@ -122,5 +122,9 @@ public class Mockwizard {
         return mocks.get(servicename);
     }
 
-
+    public static void reset() {
+        for (MockDetails mockDetails : mocks.values()) {
+            mockDetails.reset();
+        }
+    }
 }

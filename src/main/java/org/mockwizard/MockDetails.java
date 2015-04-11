@@ -1,5 +1,7 @@
 package org.mockwizard;
 
+import org.mockito.Mockito;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +59,7 @@ public class MockDetails {
             } else {
                 if (invocationDetails.count > 0) {
                     System.out.println("SUCCESS: method '" + methodCall + "' called " + invocationDetails.count + " times");
+                    return Verification.SUCCESS();
                 } else {
                     throw new RuntimeException("FAILURE: method '" + methodCall + "' was not called");
                 }
@@ -73,5 +76,10 @@ public class MockDetails {
 
     public <T> void setMock(T mock) {
         this.mock = mock;
+    }
+
+    public void reset() {
+        Mockito.reset(mock);
+        invocations = new HashMap<String, InvocationDetails>();
     }
 }
