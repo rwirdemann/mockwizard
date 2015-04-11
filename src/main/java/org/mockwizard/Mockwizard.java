@@ -4,7 +4,6 @@ import io.dropwizard.setup.Environment;
 import org.mockito.MockSettings;
 import org.mockito.Mockito;
 import org.mockito.listeners.InvocationListener;
-import org.mockwizard.examples.VerificationException;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

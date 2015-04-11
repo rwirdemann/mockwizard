@@ -1,4 +1,4 @@
-package org.mockwizard.examples;
+package org.mockwizard;
 
 import org.mockwizard.Verification;
 
